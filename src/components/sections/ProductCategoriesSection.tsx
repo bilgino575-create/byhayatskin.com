@@ -178,7 +178,7 @@ export function ProductCategoriesSection({ dict, lang }: ProductCategoriesSectio
                           fontFamily: 'var(--font-cormorant), Georgia, serif',
                           fontSize: '1.1rem',
                           fontWeight: 400,
-                          color: hoveredIndex === i ? '#F5EFE6' : 'rgba(245,239,230,0.35)',
+                          color: hoveredIndex === i ? '#F5EFE6' : 'rgba(245,239,230,0.75)',
                           letterSpacing: '0.01em',
                         }}
                       >
@@ -186,7 +186,7 @@ export function ProductCategoriesSection({ dict, lang }: ProductCategoriesSectio
                       </div>
                       <div
                         className="text-[0.62rem] leading-relaxed transition-all duration-300"
-                        style={{ color: hoveredIndex === i ? 'rgba(245,239,230,0.35)' : 'rgba(245,239,230,0.15)' }}
+                        style={{ color: hoveredIndex === i ? 'rgba(245,239,230,0.55)' : 'rgba(245,239,230,0.35)' }}
                       >
                         {cat.desc}
                       </div>

@@ -140,7 +140,7 @@ export function WhyUsSection({ dict }: WhyUsSectionProps) {
                 >
                   {feature.title}
                 </div>
-                <p className="text-sm leading-relaxed max-w-xl" style={{ color: 'rgba(245,239,230,0.4)' }}>
+                <p className="text-sm leading-relaxed max-w-xl" style={{ color: 'rgba(245,239,230,0.55)' }}>
                   {feature.desc}
                 </p>
               </div>

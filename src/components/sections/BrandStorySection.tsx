@@ -124,7 +124,7 @@ export function BrandStorySection({ dict }: BrandStorySectionProps) {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1.0, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
           >
-            <p className="text-base leading-[1.9] mb-8" style={{ color: 'rgba(245,239,230,0.45)' }}>
+            <p className="text-base leading-[1.9] mb-8" style={{ color: 'rgba(245,239,230,0.6)' }}>
               {dict.brand_story.body}
             </p>
             <div className="flex items-center gap-4">
