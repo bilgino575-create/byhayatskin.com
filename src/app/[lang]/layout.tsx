@@ -129,7 +129,7 @@ export default async function LangLayout({ children, params }: Props) {
           }}
         />
       </head>
-      <body className="bg-[var(--color-ivory)] text-[var(--color-matte-black)] antialiased">
+      <body className="antialiased" style={{ background: '#0F0E0C', color: '#F5EFE6' }}>
         <Navbar dict={dict} lang={locale} />
         <PageTransition>
           <main>{children}</main>

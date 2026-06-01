@@ -31,7 +31,7 @@ export function Footer({ dict, lang }: FooterProps) {
   ]
 
   return (
-    <footer className="bg-[var(--color-matte-black)] text-[var(--color-soft-gray)]">
+    <footer style={{ background: '#0A0908', color: 'rgba(245,239,230,0.5)' }}>
       {/* Main Footer */}
       <div className="container-luxury py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">

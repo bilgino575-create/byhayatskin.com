@@ -9,24 +9,19 @@ interface WhyUsSectionProps {
 }
 
 const featureKeys = ['expert', 'climate', 'luxury', 'personal', 'longterm'] as const
-
-// Each feature gets a unique cinematic number + accent color
 const featureMeta = [
-  { num: '01', accent: '#C9A96E', glyph: '✦' },
-  { num: '02', accent: '#B76E79', glyph: '◈' },
-  { num: '03', accent: '#C9A96E', glyph: '◉' },
-  { num: '04', accent: '#B76E79', glyph: '✧' },
-  { num: '05', accent: '#C9A96E', glyph: '☀' },
+  { num: '01', glyph: '✦' },
+  { num: '02', glyph: '◈' },
+  { num: '03', glyph: '◉' },
+  { num: '04', glyph: '✧' },
+  { num: '05', glyph: '☀' },
 ]
 
 export function WhyUsSection({ dict }: WhyUsSectionProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const inView = useInView(sectionRef, { once: true, amount: 0.1 })
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'end start'],
-  })
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
   const bgX = useTransform(scrollYProgress, [0, 1], ['-3%', '3%'])
 
   const features = featureKeys.map((key, i) => ({
@@ -39,47 +34,46 @@ export function WhyUsSection({ dict }: WhyUsSectionProps) {
     <section
       ref={sectionRef}
       className="relative overflow-hidden"
-      style={{ background: '#FDFAF5', paddingTop: '10rem', paddingBottom: '10rem' }}
+      style={{ background: '#141210', paddingTop: '8rem', paddingBottom: '8rem' }}
     >
-      {/* ── Parallax background number ── */}
+      {/* Background watermark */}
       <motion.div
         className="absolute pointer-events-none select-none"
         style={{
-          x: bgX,
-          top: '5%',
-          left: '-8%',
+          x: bgX, top: '5%', left: '-8%',
           fontSize: 'clamp(200px, 35vw, 480px)',
           fontFamily: 'var(--font-cormorant), Georgia, serif',
           fontWeight: 300,
-          color: 'rgba(160,120,64,0.04)',
-          lineHeight: 1,
-          letterSpacing: '-0.05em',
+          color: 'rgba(201,169,110,0.025)',
+          lineHeight: 1, letterSpacing: '-0.05em',
         }}
       >
         WHY
       </motion.div>
 
-      {/* ── Vertical accent line ── */}
+      {/* Vertical accent line */}
       <motion.div
         className="absolute left-0 top-0 bottom-0 w-px pointer-events-none"
-        initial={{ scaleY: 0, originY: 0 }}
+        initial={{ scaleY: 0 }}
         animate={inView ? { scaleY: 1 } : {}}
         transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-        style={{ background: 'linear-gradient(to bottom, transparent, rgba(201,169,110,0.15), transparent)' }}
+        style={{
+          background: 'linear-gradient(to bottom, transparent, rgba(201,169,110,0.1), transparent)',
+          transformOrigin: 'top',
+        }}
       />
 
       <div className="container-luxury relative">
-
-        {/* ── Header ── */}
-        <div className="mb-20 max-w-2xl">
+        {/* Header */}
+        <div className="mb-16 max-w-2xl">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="flex items-center gap-4 mb-8"
+            className="flex items-center gap-4 mb-7"
           >
-            <div style={{ width: '28px', height: '1px', background: 'rgba(201,169,110,0.6)' }} />
-            <span className="text-[0.6rem] tracking-[0.35em] uppercase" style={{ color: 'rgba(201,169,110,0.7)' }}>
+            <div style={{ width: '28px', height: '1px', background: 'rgba(201,169,110,0.5)' }} />
+            <span className="text-[0.6rem] tracking-[0.35em] uppercase" style={{ color: 'rgba(201,169,110,0.6)' }}>
               {dict.why_us.label}
             </span>
           </motion.div>
@@ -94,7 +88,7 @@ export function WhyUsSection({ dict }: WhyUsSectionProps) {
                 fontSize: 'clamp(2.5rem, 5.5vw, 5rem)',
                 fontWeight: 300,
                 letterSpacing: '-0.02em',
-                color: '#1A1A1A',
+                color: '#F5EFE6',
                 lineHeight: 1.05,
               }}
             >
@@ -103,18 +97,18 @@ export function WhyUsSection({ dict }: WhyUsSectionProps) {
           </div>
         </div>
 
-        {/* ── Features — full-width list with large numbers ── */}
+        {/* Features list */}
         <div className="flex flex-col">
           {features.map((feature, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.9, delay: 0.2 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="group relative grid grid-cols-[auto_1fr_auto] lg:grid-cols-[120px_1fr_auto] items-center gap-6 lg:gap-12 py-8 cursor-default"
-              style={{ borderBottom: '1px solid rgba(201,169,110,0.07)' }}
+              className="group relative grid grid-cols-[auto_1fr_auto] lg:grid-cols-[100px_1fr_auto] items-center gap-6 lg:gap-12 py-7 cursor-default"
+              style={{ borderBottom: '1px solid rgba(201,169,110,0.06)' }}
             >
-              {/* Hover background */}
+              {/* Hover bg */}
               <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
                 style={{ background: 'linear-gradient(to right, rgba(201,169,110,0.03), transparent)' }}
@@ -122,12 +116,11 @@ export function WhyUsSection({ dict }: WhyUsSectionProps) {
 
               {/* Number */}
               <div
-                className="font-light leading-none select-none"
+                className="font-light leading-none select-none transition-colors duration-500"
                 style={{
                   fontFamily: 'var(--font-cormorant), Georgia, serif',
-                  fontSize: 'clamp(1.8rem, 3vw, 2.8rem)',
-                  color: 'rgba(201,169,110,0.2)',
-                  transition: 'color 0.5s',
+                  fontSize: 'clamp(1.6rem, 2.5vw, 2.4rem)',
+                  color: 'rgba(201,169,110,0.15)',
                 }}
               >
                 {feature.num}
@@ -136,29 +129,26 @@ export function WhyUsSection({ dict }: WhyUsSectionProps) {
               {/* Title + desc */}
               <div>
                 <div
-                  className="mb-2 transition-colors duration-500"
+                  className="mb-1.5 transition-colors duration-500"
                   style={{
                     fontFamily: 'var(--font-cormorant), Georgia, serif',
-                    fontSize: 'clamp(1.3rem, 2.5vw, 2rem)',
+                    fontSize: 'clamp(1.2rem, 2.2vw, 1.8rem)',
                     fontWeight: 300,
-                    color: '#2A2018',
+                    color: '#F5EFE6',
                     letterSpacing: '-0.01em',
                   }}
                 >
                   {feature.title}
                 </div>
-                <p
-                  className="text-sm leading-relaxed max-w-xl"
-                  style={{ color: 'rgba(80,65,50,0.6)' }}
-                >
+                <p className="text-sm leading-relaxed max-w-xl" style={{ color: 'rgba(245,239,230,0.4)' }}>
                   {feature.desc}
                 </p>
               </div>
 
-              {/* Glyph accent */}
+              {/* Glyph */}
               <div
-                className="text-xl opacity-20 group-hover:opacity-60 transition-all duration-500 group-hover:scale-110"
-                style={{ color: feature.accent }}
+                className="text-lg opacity-15 group-hover:opacity-50 transition-all duration-500 group-hover:scale-110"
+                style={{ color: '#C9A96E' }}
               >
                 {feature.glyph}
               </div>
@@ -166,31 +156,30 @@ export function WhyUsSection({ dict }: WhyUsSectionProps) {
           ))}
         </div>
 
-        {/* ── Bottom CTA line ── */}
+        {/* Bottom line */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-16 flex items-center justify-between"
+          className="mt-14 flex items-center justify-between"
         >
           <div
             className="text-sm"
             style={{
               fontFamily: 'var(--font-cormorant), Georgia, serif',
               fontStyle: 'italic',
-              color: 'rgba(201,169,110,0.4)',
+              color: 'rgba(201,169,110,0.25)',
             }}
           >
             {dict.why_us.headline}
           </div>
           <div className="flex items-center gap-3">
-            <div style={{ width: '40px', height: '1px', background: 'rgba(201,169,110,0.2)' }} />
-            <span className="text-[0.55rem] tracking-[0.3em] uppercase" style={{ color: 'rgba(201,169,110,0.3)' }}>
+            <div style={{ width: '36px', height: '1px', background: 'rgba(201,169,110,0.15)' }} />
+            <span className="text-[0.52rem] tracking-[0.3em] uppercase" style={{ color: 'rgba(201,169,110,0.2)' }}>
               Dubai, UAE
             </span>
           </div>
         </motion.div>
-
       </div>
     </section>
   )
