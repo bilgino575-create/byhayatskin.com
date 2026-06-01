@@ -36,7 +36,7 @@ function MascaraModel() {
 
   return (
     <Float speed={1.2} rotationIntensity={0.06} floatIntensity={0.3}>
-      <group ref={groupRef} scale={[16, 16, 16]} position={[1.2, -1.8, 0]}>
+      <group ref={groupRef} scale={[14, 14, 14]} position={[3.2, -1.8, 0]}>
         <primitive object={cloned} />
       </group>
     </Float>
@@ -133,7 +133,7 @@ function LoadingFallback() {
 export default function HeroScene3D() {
   return (
     <Canvas
-      camera={{ position: [-1.2, 0.5, 5], fov: 40 }}
+      camera={{ position: [-2.0, 0.3, 5.5], fov: 38 }}
       gl={{ antialias: true, alpha: true }}
       dpr={[1, 1.5]}
       style={{ width: '100%', height: '100%' }}
