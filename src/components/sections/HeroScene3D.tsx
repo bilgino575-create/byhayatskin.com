@@ -35,8 +35,8 @@ function MascaraModel() {
   })
 
   return (
-    <Float speed={1.2} rotationIntensity={0.06} floatIntensity={0.5}>
-      <group ref={groupRef} scale={[22, 22, 22]} position={[1.2, -0.2, 0]}>
+    <Float speed={1.2} rotationIntensity={0.06} floatIntensity={0.3}>
+      <group ref={groupRef} scale={[16, 16, 16]} position={[1.2, -1.8, 0]}>
         <primitive object={cloned} />
       </group>
     </Float>
