@@ -5,6 +5,7 @@ import { hasLocale, isRTL, locales } from '@/lib/i18n/config'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { WhatsAppButton } from '@/components/ui/WhatsAppButton'
+import { PageTransition } from '@/components/layout/PageTransition'
 import { Cormorant_Garamond, Jost } from 'next/font/google'
 
 const cormorant = Cormorant_Garamond({
@@ -128,9 +129,11 @@ export default async function LangLayout({ children, params }: Props) {
           }}
         />
       </head>
-      <body className="bg-[var(--color-ivory)] text-[var(--color-matte-black)] antialiased">
+      <body className="bg-[#0D0B09] text-[var(--color-matte-black)] antialiased">
         <Navbar dict={dict} lang={locale} />
-        <main>{children}</main>
+        <PageTransition>
+          <main>{children}</main>
+        </PageTransition>
         <Footer dict={dict} lang={locale} />
         <WhatsAppButton label={dict.final_cta.whatsapp} />
       </body>

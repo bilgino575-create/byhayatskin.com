@@ -1,99 +1,196 @@
 'use client'
 
 import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import type { DictionaryType } from '@/lib/i18n/dictionaries'
 
 interface WhyUsSectionProps {
   dict: DictionaryType
 }
 
-const featureIcons = ['✦', '☀', '◈', '◉', '✧']
 const featureKeys = ['expert', 'climate', 'luxury', 'personal', 'longterm'] as const
 
+// Each feature gets a unique cinematic number + accent color
+const featureMeta = [
+  { num: '01', accent: '#C9A96E', glyph: '✦' },
+  { num: '02', accent: '#B76E79', glyph: '◈' },
+  { num: '03', accent: '#C9A96E', glyph: '◉' },
+  { num: '04', accent: '#B76E79', glyph: '✧' },
+  { num: '05', accent: '#C9A96E', glyph: '☀' },
+]
+
 export function WhyUsSection({ dict }: WhyUsSectionProps) {
-  const ref = useRef<HTMLElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
+  const sectionRef = useRef<HTMLElement>(null)
+  const inView = useInView(sectionRef, { once: true, amount: 0.1 })
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  })
+  const bgX = useTransform(scrollYProgress, [0, 1], ['-3%', '3%'])
 
   const features = featureKeys.map((key, i) => ({
-    icon: featureIcons[i],
+    ...featureMeta[i],
     title: dict.why_us.features[key].title,
     desc: dict.why_us.features[key].desc,
   }))
 
   return (
-    <section ref={ref} className="section-padding bg-[var(--color-matte-black)] relative overflow-hidden">
-      {/* Gold accent lines */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--color-champagne)]/40 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--color-champagne)]/40 to-transparent" />
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden"
+      style={{ background: '#080604', paddingTop: '10rem', paddingBottom: '10rem' }}
+    >
+      {/* ── Parallax background number ── */}
+      <motion.div
+        className="absolute pointer-events-none select-none"
+        style={{
+          x: bgX,
+          top: '5%',
+          left: '-8%',
+          fontSize: 'clamp(200px, 35vw, 480px)',
+          fontFamily: 'var(--font-cormorant), Georgia, serif',
+          fontWeight: 300,
+          color: 'rgba(201,169,110,0.025)',
+          lineHeight: 1,
+          letterSpacing: '-0.05em',
+        }}
+      >
+        WHY
+      </motion.div>
 
-      {/* Background glow */}
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-5 blur-3xl pointer-events-none"
-        style={{ background: 'radial-gradient(circle, var(--color-champagne) 0%, transparent 70%)' }}
+      {/* ── Vertical accent line ── */}
+      <motion.div
+        className="absolute left-0 top-0 bottom-0 w-px pointer-events-none"
+        initial={{ scaleY: 0, originY: 0 }}
+        animate={inView ? { scaleY: 1 } : {}}
+        transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+        style={{ background: 'linear-gradient(to bottom, transparent, rgba(201,169,110,0.15), transparent)' }}
       />
 
-      <div className="container-luxury">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="h-px w-10 bg-[var(--color-champagne)]" />
-            <span className="text-[0.7rem] tracking-[0.25em] uppercase text-[var(--color-champagne)] font-medium">
+      <div className="container-luxury relative">
+
+        {/* ── Header ── */}
+        <div className="mb-20 max-w-2xl">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="flex items-center gap-4 mb-8"
+          >
+            <div style={{ width: '28px', height: '1px', background: 'rgba(201,169,110,0.6)' }} />
+            <span className="text-[0.6rem] tracking-[0.35em] uppercase" style={{ color: 'rgba(201,169,110,0.7)' }}>
               {dict.why_us.label}
             </span>
-            <div className="h-px w-10 bg-[var(--color-champagne)]" />
-          </div>
-          <h2
-            className="text-4xl md:text-5xl text-white"
-            style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontWeight: 300, letterSpacing: '0.02em' }}
-          >
-            {dict.why_us.headline}
-          </h2>
-        </motion.div>
+          </motion.div>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+          <div className="overflow-hidden">
+            <motion.h2
+              initial={{ y: '100%' }}
+              animate={inView ? { y: '0%' } : {}}
+              transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+              style={{
+                fontFamily: 'var(--font-cormorant), Georgia, serif',
+                fontSize: 'clamp(2.5rem, 5.5vw, 5rem)',
+                fontWeight: 300,
+                letterSpacing: '-0.02em',
+                color: '#F5EDD8',
+                lineHeight: 1.05,
+              }}
+            >
+              {dict.why_us.headline}
+            </motion.h2>
+          </div>
+        </div>
+
+        {/* ── Features — full-width list with large numbers ── */}
+        <div className="flex flex-col">
           {features.map((feature, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: i * 0.1 }}
-              className="group relative p-6 rounded-sm border border-[var(--color-champagne)]/15 hover:border-[var(--color-champagne)]/40 transition-all duration-400 hover:bg-[var(--color-champagne)]/5"
+              transition={{ duration: 0.9, delay: 0.2 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="group relative grid grid-cols-[auto_1fr_auto] lg:grid-cols-[120px_1fr_auto] items-center gap-6 lg:gap-12 py-8 cursor-default"
+              style={{ borderBottom: '1px solid rgba(201,169,110,0.07)' }}
             >
-              {/* Icon */}
-              <div className="text-2xl text-[var(--color-champagne)] mb-4 group-hover:scale-110 transition-transform duration-300">
-                {feature.icon}
+              {/* Hover background */}
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                style={{ background: 'linear-gradient(to right, rgba(201,169,110,0.03), transparent)' }}
+              />
+
+              {/* Number */}
+              <div
+                className="font-light leading-none select-none"
+                style={{
+                  fontFamily: 'var(--font-cormorant), Georgia, serif',
+                  fontSize: 'clamp(1.8rem, 3vw, 2.8rem)',
+                  color: 'rgba(201,169,110,0.2)',
+                  transition: 'color 0.5s',
+                }}
+              >
+                {feature.num}
               </div>
 
-              {/* Gold line */}
-              <div className="w-8 h-px bg-[var(--color-champagne)]/40 mb-4 group-hover:w-12 transition-all duration-300" />
+              {/* Title + desc */}
+              <div>
+                <div
+                  className="mb-2 transition-colors duration-500"
+                  style={{
+                    fontFamily: 'var(--font-cormorant), Georgia, serif',
+                    fontSize: 'clamp(1.3rem, 2.5vw, 2rem)',
+                    fontWeight: 300,
+                    color: '#E8DDD0',
+                    letterSpacing: '-0.01em',
+                  }}
+                >
+                  {feature.title}
+                </div>
+                <p
+                  className="text-sm leading-relaxed max-w-xl"
+                  style={{ color: 'rgba(200,185,165,0.45)' }}
+                >
+                  {feature.desc}
+                </p>
+              </div>
 
-              {/* Title */}
-              <h3
-                className="text-lg text-white mb-3"
-                style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontWeight: 400 }}
+              {/* Glyph accent */}
+              <div
+                className="text-xl opacity-20 group-hover:opacity-60 transition-all duration-500 group-hover:scale-110"
+                style={{ color: feature.accent }}
               >
-                {feature.title}
-              </h3>
-
-              {/* Description */}
-              <p className="text-sm text-[var(--color-warm-gray)] leading-relaxed">
-                {feature.desc}
-              </p>
-
-              {/* Hover glow */}
-              <div className="absolute inset-0 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none"
-                style={{ background: 'radial-gradient(circle at 50% 0%, rgba(201,169,110,0.06) 0%, transparent 70%)' }}
-              />
+                {feature.glyph}
+              </div>
             </motion.div>
           ))}
         </div>
+
+        {/* ── Bottom CTA line ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.9, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-16 flex items-center justify-between"
+        >
+          <div
+            className="text-sm"
+            style={{
+              fontFamily: 'var(--font-cormorant), Georgia, serif',
+              fontStyle: 'italic',
+              color: 'rgba(201,169,110,0.4)',
+            }}
+          >
+            {dict.why_us.headline}
+          </div>
+          <div className="flex items-center gap-3">
+            <div style={{ width: '40px', height: '1px', background: 'rgba(201,169,110,0.2)' }} />
+            <span className="text-[0.55rem] tracking-[0.3em] uppercase" style={{ color: 'rgba(201,169,110,0.3)' }}>
+              Dubai, UAE
+            </span>
+          </div>
+        </motion.div>
+
       </div>
     </section>
   )

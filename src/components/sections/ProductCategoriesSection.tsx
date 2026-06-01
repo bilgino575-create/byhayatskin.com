@@ -1,9 +1,8 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import Link from 'next/link'
-import { motion, useInView } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
+import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import type { DictionaryType, Locale } from '@/lib/i18n/dictionaries'
 
 interface ProductCategoriesSectionProps {
@@ -11,123 +10,217 @@ interface ProductCategoriesSectionProps {
   lang: Locale
 }
 
-const categoryIcons: Record<string, string> = {
-  serums: '✦',
-  moisturizers: '◈',
-  cleansers: '◎',
-  masks: '◇',
-  spf: '☀',
-  eye_care: '◉',
-  anti_aging: '✧',
-  acne: '◆',
-  pigmentation: '◐',
-  barrier: '⬡',
-  kits: '✦',
+const categoryKeys = ['serums', 'moisturizers', 'cleansers', 'masks', 'spf', 'eye_care', 'anti_aging', 'acne', 'pigmentation', 'barrier', 'kits'] as const
+
+const categoryMeta: Record<string, { glyph: string; accent: string; desc: string }> = {
+  serums:       { glyph: '✦', accent: '#C9A96E', desc: 'Concentrated actives for targeted results' },
+  moisturizers: { glyph: '◈', accent: '#B76E79', desc: 'Deep hydration for Dubai\'s climate' },
+  cleansers:    { glyph: '◎', accent: '#7BA7BC', desc: 'Gentle yet effective daily cleansing' },
+  masks:        { glyph: '◇', accent: '#A8C5A0', desc: 'Intensive weekly treatment rituals' },
+  spf:          { glyph: '☀', accent: '#C9A96E', desc: 'UAE-grade sun protection SPF 50+' },
+  eye_care:     { glyph: '◉', accent: '#9B8EA8', desc: 'Precision care for delicate eye area' },
+  anti_aging:   { glyph: '✧', accent: '#C9A96E', desc: 'Science-backed age-defying formulas' },
+  acne:         { glyph: '◆', accent: '#B76E79', desc: 'Clear skin solutions for UAE heat' },
+  pigmentation: { glyph: '◐', accent: '#7BA7BC', desc: 'Even tone, luminous complexion' },
+  barrier:      { glyph: '⬡', accent: '#A8C5A0', desc: 'Restore and strengthen skin barrier' },
+  kits:         { glyph: '✦', accent: '#C9A96E', desc: 'Curated luxury ritual collections' },
 }
 
-const categoryColors = [
-  '#C9A96E', '#B76E79', '#7BA7BC', '#A8C5A0', '#9B8EA8',
-  '#C9A96E', '#B76E79', '#7BA7BC', '#A8C5A0', '#9B8EA8', '#C9A96E',
-]
-
 export function ProductCategoriesSection({ dict, lang }: ProductCategoriesSectionProps) {
-  const ref = useRef<HTMLElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
+  const sectionRef = useRef<HTMLElement>(null)
+  const inView = useInView(sectionRef, { once: true, amount: 0.08 })
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
-  const categories = [
-    { key: 'serums', label: dict.categories.items.serums, slug: 'serums' },
-    { key: 'moisturizers', label: dict.categories.items.moisturizers, slug: 'moisturizers' },
-    { key: 'cleansers', label: dict.categories.items.cleansers, slug: 'cleansers' },
-    { key: 'masks', label: dict.categories.items.masks, slug: 'masks' },
-    { key: 'spf', label: dict.categories.items.spf, slug: 'spf' },
-    { key: 'eye_care', label: dict.categories.items.eye_care, slug: 'eye-care' },
-    { key: 'anti_aging', label: dict.categories.items.anti_aging, slug: 'anti-aging' },
-    { key: 'acne', label: dict.categories.items.acne, slug: 'acne' },
-    { key: 'pigmentation', label: dict.categories.items.pigmentation, slug: 'pigmentation' },
-    { key: 'barrier', label: dict.categories.items.barrier, slug: 'barrier' },
-    { key: 'kits', label: dict.categories.items.kits, slug: 'kits' },
-  ]
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  })
+  const bgY = useTransform(scrollYProgress, [0, 1], ['-5%', '5%'])
+
+  const categoryLabels: Record<string, string> = {
+    serums: 'Serums', moisturizers: 'Moisturizers', cleansers: 'Cleansers',
+    masks: 'Masks', spf: 'SPF Protection', eye_care: 'Eye Care',
+    anti_aging: 'Anti-Aging', acne: 'Acne Treatment', pigmentation: 'Pigmentation',
+    barrier: 'Barrier Repair', kits: 'Luxury Kits',
+  }
+  const categories = categoryKeys.map((key) => ({
+    key,
+    label: categoryLabels[key],
+    ...categoryMeta[key],
+  }))
 
   return (
-    <section ref={ref} className="section-padding bg-[var(--color-beige)] relative overflow-hidden">
-      <div className="container-luxury">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14"
-        >
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="h-px w-10 bg-[var(--color-champagne)]" />
-              <span className="text-[0.7rem] tracking-[0.25em] uppercase text-[var(--color-champagne-dark)] font-medium">
-                {dict.categories.label}
-              </span>
-            </div>
-            <h2 className="heading-luxury text-4xl md:text-5xl text-[var(--color-matte-black)]">
-              {dict.categories.headline}
-            </h2>
-          </div>
-          <Link
-            href={`/${lang}/products`}
-            className="flex items-center gap-2 text-[0.75rem] tracking-[0.1em] uppercase text-[var(--color-champagne-dark)] hover:gap-3 transition-all duration-300 group shrink-0"
-          >
-            {dict.categories.cta}
-            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
-          </Link>
-        </motion.div>
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden"
+      style={{ background: '#0C0A07', paddingTop: '10rem', paddingBottom: '10rem' }}
+    >
+      {/* ── Parallax background text ── */}
+      <motion.div
+        className="absolute pointer-events-none select-none"
+        style={{
+          y: bgY,
+          bottom: '-5%',
+          left: '-5%',
+          fontSize: 'clamp(120px, 22vw, 320px)',
+          fontFamily: 'var(--font-cormorant), Georgia, serif',
+          fontWeight: 300,
+          color: 'rgba(201,169,110,0.025)',
+          lineHeight: 1,
+          letterSpacing: '-0.04em',
+        }}
+      >
+        SKIN
+      </motion.div>
 
-        {/* Categories Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <div className="container-luxury relative">
+
+        {/* ── Header ── */}
+        <div className="mb-20 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+          <div>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="flex items-center gap-4 mb-8"
+            >
+              <div style={{ width: '28px', height: '1px', background: 'rgba(201,169,110,0.6)' }} />
+              <span className="text-[0.6rem] tracking-[0.35em] uppercase" style={{ color: 'rgba(201,169,110,0.7)' }}>
+                Our Collection
+              </span>
+            </motion.div>
+
+            <div className="overflow-hidden">
+              <motion.h2
+                initial={{ y: '100%' }}
+                animate={inView ? { y: '0%' } : {}}
+                transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                style={{
+                  fontFamily: 'var(--font-cormorant), Georgia, serif',
+                  fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
+                  fontWeight: 300,
+                  letterSpacing: '-0.02em',
+                  color: '#F5EDD8',
+                  lineHeight: 1.05,
+                }}
+              >
+                {dict.products.headline}
+              </motion.h2>
+            </div>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            <Link
+              href={`/${lang}/products`}
+              className="group flex items-center gap-3 text-[0.65rem] tracking-[0.25em] uppercase transition-all duration-400"
+              style={{ color: 'rgba(201,169,110,0.6)' }}
+              onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'rgba(201,169,110,1)'}
+              onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'rgba(201,169,110,0.6)'}
+            >
+              <span>View All Products</span>
+              <motion.div
+                animate={{ x: [0, 4, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                →
+              </motion.div>
+            </Link>
+          </motion.div>
+        </div>
+
+        {/* ── Category grid — full-width list style ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0">
           {categories.map((cat, i) => (
             <motion.div
               key={cat.key}
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: i * 0.05 }}
+              transition={{ duration: 0.7, delay: 0.1 + i * 0.06, ease: [0.16, 1, 0.3, 1] }}
             >
               <Link
-                href={`/${lang}/products/${cat.slug}`}
-                className="group flex flex-col items-center text-center p-5 rounded-sm bg-[var(--color-pearl)] border border-[var(--color-soft-gray)] hover:border-[var(--color-champagne-light)] hover:shadow-[var(--shadow-hover)] transition-all duration-400 hover:-translate-y-1"
+                href={`/${lang}/products`}
+                className="group relative block py-7 px-6 transition-all duration-500"
+                style={{
+                  borderBottom: '1px solid rgba(201,169,110,0.07)',
+                  borderRight: (i % 3 !== 2) ? '1px solid rgba(201,169,110,0.07)' : 'none',
+                }}
+                onMouseEnter={() => setHoveredIndex(i)}
+                onMouseLeave={() => setHoveredIndex(null)}
               >
-                {/* Icon */}
-                <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center mb-3 text-lg transition-all duration-300 group-hover:scale-110"
-                  style={{
-                    background: categoryColors[i] + '15',
-                    color: categoryColors[i],
-                  }}
-                >
-                  {categoryIcons[cat.key]}
+                {/* Hover background */}
+                <motion.div
+                  className="absolute inset-0 pointer-events-none"
+                  animate={{ opacity: hoveredIndex === i ? 1 : 0 }}
+                  transition={{ duration: 0.4 }}
+                  style={{ background: `linear-gradient(135deg, ${cat.accent}08, transparent)` }}
+                />
+
+                {/* Corner accent */}
+                <motion.div
+                  className="absolute top-0 left-0 w-0 h-px pointer-events-none"
+                  animate={{ width: hoveredIndex === i ? '40px' : '0px' }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  style={{ background: cat.accent }}
+                />
+
+                <div className="relative flex items-start gap-4">
+                  {/* Glyph */}
+                  <div
+                    className="mt-0.5 text-base transition-all duration-500 flex-shrink-0"
+                    style={{
+                      color: hoveredIndex === i ? cat.accent : 'rgba(201,169,110,0.2)',
+                    }}
+                  >
+                    {cat.glyph}
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    {/* Category name */}
+                    <div
+                      className="mb-1.5 transition-colors duration-400"
+                      style={{
+                        fontFamily: 'var(--font-cormorant), Georgia, serif',
+                        fontSize: '1.15rem',
+                        fontWeight: 400,
+                        color: hoveredIndex === i ? '#F5EDD8' : 'rgba(200,185,165,0.6)',
+                        letterSpacing: '0.01em',
+                      }}
+                    >
+                      {cat.label}
+                    </div>
+                    {/* Desc */}
+                    <div
+                      className="text-[0.65rem] leading-relaxed transition-all duration-400"
+                      style={{
+                        color: hoveredIndex === i ? 'rgba(200,185,165,0.5)' : 'rgba(200,185,165,0.2)',
+                      }}
+                    >
+                      {cat.desc}
+                    </div>
+                  </div>
+
+                  {/* Arrow */}
+                  <motion.div
+                    animate={{
+                      opacity: hoveredIndex === i ? 1 : 0,
+                      x: hoveredIndex === i ? 0 : -8,
+                    }}
+                    transition={{ duration: 0.3 }}
+                    className="flex-shrink-0 mt-0.5"
+                    style={{ color: cat.accent, fontSize: '0.75rem' }}
+                  >
+                    →
+                  </motion.div>
                 </div>
-                <span className="text-[0.75rem] font-medium text-[var(--color-matte-black)] group-hover:text-[var(--color-champagne-dark)] transition-colors duration-300 leading-tight">
-                  {cat.label}
-                </span>
               </Link>
             </motion.div>
           ))}
-
-          {/* View All Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: categories.length * 0.05 }}
-          >
-            <Link
-              href={`/${lang}/products`}
-              className="group flex flex-col items-center justify-center text-center p-5 rounded-sm border border-dashed border-[var(--color-champagne)]/40 hover:border-[var(--color-champagne)] hover:bg-[var(--color-champagne)]/5 transition-all duration-400 h-full min-h-[100px]"
-            >
-              <ArrowRight
-                size={20}
-                className="text-[var(--color-champagne)] mb-2 group-hover:translate-x-1 transition-transform duration-300"
-              />
-              <span className="text-[0.7rem] tracking-[0.1em] uppercase text-[var(--color-champagne-dark)]">
-                {dict.categories.cta}
-              </span>
-            </Link>
-          </motion.div>
         </div>
+
       </div>
     </section>
   )
