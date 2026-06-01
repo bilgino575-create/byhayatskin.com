@@ -35,8 +35,8 @@ function MascaraModel() {
   })
 
   return (
-    <Float speed={1.2} rotationIntensity={0.08} floatIntensity={0.6}>
-      <group ref={groupRef} scale={[18, 18, 18]} position={[0, -0.5, 0]}>
+    <Float speed={1.2} rotationIntensity={0.06} floatIntensity={0.5}>
+      <group ref={groupRef} scale={[22, 22, 22]} position={[0.4, -0.3, 0]}>
         <primitive object={cloned} />
       </group>
     </Float>
@@ -92,12 +92,12 @@ function GlowRing() {
   })
 
   return (
-    <mesh ref={meshRef} position={[0, 0, -2]} rotation={[0, 0, 0]}>
-      <ringGeometry args={[1.8, 2.4, 64]} />
+    <mesh ref={meshRef} position={[0.4, 0, -2.5]} rotation={[0, 0, 0]}>
+      <circleGeometry args={[3.5, 64]} />
       <meshBasicMaterial
         color="#C9A96E"
         transparent
-        opacity={0.06}
+        opacity={0.04}
         side={THREE.DoubleSide}
         depthWrite={false}
       />
