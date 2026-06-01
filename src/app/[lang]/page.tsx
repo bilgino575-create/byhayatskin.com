@@ -1,16 +1,7 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { getDictionary, hasLocale, type Locale } from '@/lib/i18n/dictionaries'
-import { HeroSection } from '@/components/sections/HeroSection'
-import { BrandStorySection } from '@/components/sections/BrandStorySection'
-import { SkinDiagnosisSection } from '@/components/sections/SkinDiagnosisSection'
-import { ProductCategoriesSection } from '@/components/sections/ProductCategoriesSection'
-import { ConsultationSection } from '@/components/sections/ConsultationSection'
-import { WhyUsSection } from '@/components/sections/WhyUsSection'
-import { TestimonialsSection } from '@/components/sections/TestimonialsSection'
-import { BlogSection } from '@/components/sections/BlogSection'
-import { InstagramSection } from '@/components/sections/InstagramSection'
-import { FinalCTASection } from '@/components/sections/FinalCTASection'
+import { LuxuryHomePage } from '@/components/sections/LuxuryHomePage'
 
 type Props = {
   params: Promise<{ lang: string }>
@@ -50,18 +41,5 @@ export default async function HomePage({ params }: Props) {
   const locale = lang as Locale
   const dict = await getDictionary(locale)
 
-  return (
-    <>
-      <HeroSection dict={dict} lang={locale} />
-      <BrandStorySection dict={dict} />
-      <SkinDiagnosisSection dict={dict} lang={locale} />
-      <ProductCategoriesSection dict={dict} lang={locale} />
-      <ConsultationSection dict={dict} lang={locale} />
-      <WhyUsSection dict={dict} />
-      <TestimonialsSection dict={dict} />
-      <BlogSection dict={dict} lang={locale} />
-      <InstagramSection dict={dict} />
-      <FinalCTASection dict={dict} lang={locale} />
-    </>
-  )
+  return <LuxuryHomePage dict={dict} lang={locale} />
 }
