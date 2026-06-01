@@ -285,149 +285,75 @@ const chapters = [
   },
 ]
 
+// Sub-components for SceneChapters — hooks must be at component top level
+function ChapterWatermark({ ch, index, scrollYProgress }: { ch: typeof chapters[0]; index: number; scrollYProgress: ReturnType<typeof useScroll>['scrollYProgress'] }) {
+  const i = index
+  const opacity = useTransform(scrollYProgress, [i * 0.25 - 0.05, i * 0.25, i * 0.25 + 0.2, i * 0.25 + 0.25], [0, 0.04, 0.04, 0])
+  return (
+    <motion.div
+      className="absolute pointer-events-none select-none"
+      style={{ top: '50%', left: '-5%', transform: 'translateY(-50%)', fontFamily: 'var(--font-cormorant), Georgia, serif', fontSize: 'clamp(200px, 35vw, 500px)', fontWeight: 300, lineHeight: 1, letterSpacing: '-0.06em', color: ch.accent, opacity }}
+    >
+      {ch.num}
+    </motion.div>
+  )
+}
+
+function ChapterDot({ ch, index, scrollYProgress }: { ch: typeof chapters[0]; index: number; scrollYProgress: ReturnType<typeof useScroll>['scrollYProgress'] }) {
+  const i = index
+  const height = useTransform(scrollYProgress, [i * 0.25, i * 0.25 + 0.05, i * 0.25 + 0.2, i * 0.25 + 0.25], ['4px', '20px', '20px', '4px'])
+  const opacity = useTransform(scrollYProgress, [i * 0.25 - 0.05, i * 0.25, i * 0.25 + 0.2, i * 0.25 + 0.25], [0.2, 1, 1, 0.2])
+  return <motion.div style={{ width: '4px', height, background: ch.accent, opacity, borderRadius: '2px' }} />
+}
+
+function ChapterContent({ ch, index, scrollYProgress }: { ch: typeof chapters[0]; index: number; scrollYProgress: ReturnType<typeof useScroll>['scrollYProgress'] }) {
+  const i = index
+  const opacity = useTransform(scrollYProgress, [i * 0.25 - 0.05, i * 0.25, i * 0.25 + 0.2, i * 0.25 + 0.25], [0, 1, 1, 0])
+  const y = useTransform(scrollYProgress, [i * 0.25 - 0.05, i * 0.25, i * 0.25 + 0.2, i * 0.25 + 0.25], ['40px', '0px', '0px', '-40px'])
+  return (
+    <motion.div className="absolute inset-0 flex items-center" style={{ opacity, y }}>
+      <div className="container-luxury">
+        <div className="max-w-2xl">
+          <div className="flex items-center gap-4 mb-8">
+            <span style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontSize: '0.75rem', color: ch.accent, letterSpacing: '0.3em', opacity: 0.7 }}>{ch.num}</span>
+            <div style={{ width: '40px', height: '1px', background: ch.accent, opacity: 0.4 }} />
+            <span style={{ color: ch.accent, fontSize: '0.58rem', letterSpacing: '0.4em', textTransform: 'uppercase', opacity: 0.6 }}>{ch.sub}</span>
+          </div>
+          <h2 style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontSize: 'clamp(3rem, 7vw, 7rem)', fontWeight: 300, letterSpacing: '-0.03em', lineHeight: 0.92, color: '#F5EFE6', marginBottom: '2.5rem' }}>
+            {ch.title}
+          </h2>
+          <div style={{ width: '60px', height: '1px', background: ch.accent, opacity: 0.3, marginBottom: '1.5rem' }} />
+          <p style={{ color: 'rgba(245,239,230,0.5)', fontSize: '1rem', lineHeight: 1.85, maxWidth: '480px' }}>{ch.body}</p>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+function ProgressBar({ scrollYProgress }: { scrollYProgress: ReturnType<typeof useScroll>['scrollYProgress'] }) {
+  const width = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
+  return (
+    <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'rgba(201,169,110,0.06)' }}>
+      <motion.div className="h-full" style={{ width, background: 'linear-gradient(to right, #A07840, #C9A96E)' }} />
+    </div>
+  )
+}
+
 function SceneChapters() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  })
-
-  const activeChapter = useTransform(scrollYProgress, [0, 0.25, 0.5, 0.75, 1], [0, 1, 2, 3, 3])
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ['start start', 'end end'] })
 
   return (
     <div ref={containerRef} style={{ height: `${chapters.length * 100}vh` }}>
       <div className="sticky top-0 overflow-hidden" style={{ height: '100vh', background: '#0F0E0C' }}>
-        {/* Background chapter number watermark */}
-        {chapters.map((ch, i) => (
-          <motion.div
-            key={i}
-            className="absolute pointer-events-none select-none"
-            style={{
-              top: '50%',
-              left: '-5%',
-              transform: 'translateY(-50%)',
-              fontFamily: 'var(--font-cormorant), Georgia, serif',
-              fontSize: 'clamp(200px, 35vw, 500px)',
-              fontWeight: 300,
-              lineHeight: 1,
-              letterSpacing: '-0.06em',
-              color: ch.accent,
-              opacity: useTransform(
-                scrollYProgress,
-                [i * 0.25 - 0.05, i * 0.25, i * 0.25 + 0.2, i * 0.25 + 0.25],
-                [0, 0.04, 0.04, 0]
-              ),
-            }}
-          >
-            {ch.num}
-          </motion.div>
-        ))}
-
-        {/* Progress bar */}
-        <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'rgba(201,169,110,0.06)' }}>
-          <motion.div
-            className="h-full"
-            style={{
-              width: useTransform(scrollYProgress, [0, 1], ['0%', '100%']),
-              background: 'linear-gradient(to right, #A07840, #C9A96E)',
-            }}
-          />
-        </div>
-
-        {/* Chapter dots */}
+        {chapters.map((ch, i) => <ChapterWatermark key={i} ch={ch} index={i} scrollYProgress={scrollYProgress} />)}
+        <ProgressBar scrollYProgress={scrollYProgress} />
         <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-3">
-          {chapters.map((ch, i) => (
-            <motion.div
-              key={i}
-              style={{
-                width: '4px',
-                height: useTransform(
-                  scrollYProgress,
-                  [i * 0.25, i * 0.25 + 0.05, i * 0.25 + 0.2, i * 0.25 + 0.25],
-                  ['4px', '20px', '20px', '4px']
-                ),
-                background: ch.accent,
-                opacity: useTransform(
-                  scrollYProgress,
-                  [i * 0.25 - 0.05, i * 0.25, i * 0.25 + 0.2, i * 0.25 + 0.25],
-                  [0.2, 1, 1, 0.2]
-                ),
-                borderRadius: '2px',
-              }}
-            />
-          ))}
+          {chapters.map((ch, i) => <ChapterDot key={i} ch={ch} index={i} scrollYProgress={scrollYProgress} />)}
         </div>
-
-        {/* Chapter content */}
         <div className="absolute inset-0 flex items-center">
-          <div className="container-luxury w-full">
-            {chapters.map((ch, i) => (
-              <motion.div
-                key={i}
-                className="absolute inset-0 flex items-center"
-                style={{
-                  opacity: useTransform(
-                    scrollYProgress,
-                    [i * 0.25 - 0.05, i * 0.25, i * 0.25 + 0.2, i * 0.25 + 0.25],
-                    [0, 1, 1, 0]
-                  ),
-                  y: useTransform(
-                    scrollYProgress,
-                    [i * 0.25 - 0.05, i * 0.25, i * 0.25 + 0.2, i * 0.25 + 0.25],
-                    ['40px', '0px', '0px', '-40px']
-                  ),
-                }}
-              >
-                <div className="container-luxury">
-                  <div className="max-w-2xl">
-                    <div className="flex items-center gap-4 mb-8">
-                      <span
-                        style={{
-                          fontFamily: 'var(--font-cormorant), Georgia, serif',
-                          fontSize: '0.75rem',
-                          color: ch.accent,
-                          letterSpacing: '0.3em',
-                          opacity: 0.7,
-                        }}
-                      >
-                        {ch.num}
-                      </span>
-                      <div style={{ width: '40px', height: '1px', background: ch.accent, opacity: 0.4 }} />
-                      <span style={{ color: ch.accent, fontSize: '0.58rem', letterSpacing: '0.4em', textTransform: 'uppercase', opacity: 0.6 }}>
-                        {ch.sub}
-                      </span>
-                    </div>
-
-                    <h2
-                      style={{
-                        fontFamily: 'var(--font-cormorant), Georgia, serif',
-                        fontSize: 'clamp(3rem, 7vw, 7rem)',
-                        fontWeight: 300,
-                        letterSpacing: '-0.03em',
-                        lineHeight: 0.92,
-                        color: '#F5EFE6',
-                        marginBottom: '2.5rem',
-                      }}
-                    >
-                      {ch.title}
-                    </h2>
-
-                    <div style={{ width: '60px', height: '1px', background: ch.accent, opacity: 0.3, marginBottom: '1.5rem' }} />
-
-                    <p
-                      style={{
-                        color: 'rgba(245,239,230,0.5)',
-                        fontSize: '1rem',
-                        lineHeight: 1.85,
-                        maxWidth: '480px',
-                      }}
-                    >
-                      {ch.body}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+          <div className="container-luxury w-full relative" style={{ height: '100%' }}>
+            {chapters.map((ch, i) => <ChapterContent key={i} ch={ch} index={i} scrollYProgress={scrollYProgress} />)}
           </div>
         </div>
       </div>
