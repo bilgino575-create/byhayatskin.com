@@ -1,231 +1,13 @@
 'use client'
 
-import { useRef, Suspense, useMemo } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowDown } from 'lucide-react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import { Float, Environment, MeshTransmissionMaterial, RoundedBox } from '@react-three/drei'
 import type { DictionaryType, Locale } from '@/lib/i18n/dictionaries'
-import * as THREE from 'three'
 
 interface HeroSectionProps {
   dict: DictionaryType
   lang: Locale
-}
-
-// ── Luxury Serum Bottle Body ──
-function SerumBottle() {
-  const bottleRef = useRef<THREE.Group>(null)
-  const liquidRef = useRef<THREE.Mesh>(null)
-
-  useFrame((state) => {
-    if (!bottleRef.current) return
-    // Gentle slow float rotation
-    bottleRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.2) * 0.12
-    bottleRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.15) * 0.04
-    // Liquid shimmer
-    if (liquidRef.current) {
-      const mat = liquidRef.current.material as THREE.MeshStandardMaterial
-      mat.emissiveIntensity = 0.3 + Math.sin(state.clock.elapsedTime * 0.8) * 0.15
-    }
-  })
-
-  return (
-    <Float speed={1.2} rotationIntensity={0.08} floatIntensity={0.6}>
-      <group ref={bottleRef} position={[0, 0, 0]}>
-
-        {/* ── Main bottle glass body ── */}
-        <mesh position={[0, 0, 0]}>
-          <cylinderGeometry args={[0.38, 0.42, 2.2, 64, 1, false]} />
-          <MeshTransmissionMaterial
-            backside
-            samples={6}
-            thickness={0.15}
-            roughness={0.02}
-            transmission={0.96}
-            ior={1.5}
-            chromaticAberration={0.03}
-            anisotropy={0.1}
-            distortion={0.05}
-            distortionScale={0.2}
-            temporalDistortion={0.02}
-            color="#F5EDD8"
-            attenuationColor="#E8D5A3"
-            attenuationDistance={1.5}
-          />
-        </mesh>
-
-        {/* ── Golden liquid inside ── */}
-        <mesh ref={liquidRef} position={[0, -0.3, 0]}>
-          <cylinderGeometry args={[0.32, 0.36, 1.5, 48]} />
-          <meshStandardMaterial
-            color="#C9A96E"
-            transparent
-            opacity={0.75}
-            roughness={0.05}
-            metalness={0.2}
-            emissive="#B8860B"
-            emissiveIntensity={0.3}
-          />
-        </mesh>
-
-        {/* ── Bottle shoulder (tapered top) ── */}
-        <mesh position={[0, 1.25, 0]}>
-          <cylinderGeometry args={[0.18, 0.38, 0.5, 48]} />
-          <MeshTransmissionMaterial
-            samples={4}
-            thickness={0.1}
-            roughness={0.02}
-            transmission={0.95}
-            ior={1.5}
-            color="#F5EDD8"
-          />
-        </mesh>
-
-        {/* ── Bottle neck ── */}
-        <mesh position={[0, 1.62, 0]}>
-          <cylinderGeometry args={[0.14, 0.18, 0.28, 32]} />
-          <meshStandardMaterial
-            color="#E8D5B0"
-            roughness={0.05}
-            metalness={0.3}
-            transparent
-            opacity={0.9}
-          />
-        </mesh>
-
-        {/* ── Gold cap / dropper top ── */}
-        <mesh position={[0, 1.95, 0]}>
-          <cylinderGeometry args={[0.16, 0.14, 0.5, 32]} />
-          <meshStandardMaterial
-            color="#C9A96E"
-            roughness={0.08}
-            metalness={0.85}
-            envMapIntensity={2}
-          />
-        </mesh>
-
-        {/* ── Cap top dome ── */}
-        <mesh position={[0, 2.22, 0]}>
-          <sphereGeometry args={[0.16, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2]} />
-          <meshStandardMaterial
-            color="#D4AF6E"
-            roughness={0.06}
-            metalness={0.9}
-            envMapIntensity={2.5}
-          />
-        </mesh>
-
-        {/* ── Subtle label area (frosted band) ── */}
-        <mesh position={[0, -0.1, 0]}>
-          <cylinderGeometry args={[0.385, 0.385, 0.9, 48]} />
-          <meshStandardMaterial
-            color="#FAF5EC"
-            roughness={0.6}
-            metalness={0}
-            transparent
-            opacity={0.35}
-          />
-        </mesh>
-
-        {/* ── Bottom base rim ── */}
-        <mesh position={[0, -1.15, 0]}>
-          <cylinderGeometry args={[0.44, 0.42, 0.1, 48]} />
-          <meshStandardMaterial
-            color="#C9A96E"
-            roughness={0.1}
-            metalness={0.7}
-          />
-        </mesh>
-
-      </group>
-    </Float>
-  )
-}
-
-// ── Soft Gold Particles (minimal, elegant) ──
-function GoldParticles() {
-  const pointsRef = useRef<THREE.Points>(null)
-  const count = 80
-
-  const positions = useMemo(() => {
-    const arr = new Float32Array(count * 3)
-    for (let i = 0; i < count; i++) {
-      arr[i * 3] = (Math.random() - 0.5) * 8
-      arr[i * 3 + 1] = (Math.random() - 0.5) * 8
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 4
-    }
-    return arr
-  }, [])
-
-  useFrame((state) => {
-    if (!pointsRef.current) return
-    pointsRef.current.rotation.y = state.clock.elapsedTime * 0.025
-    pointsRef.current.rotation.x = state.clock.elapsedTime * 0.008
-  })
-
-  return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.025}
-        color="#C9A96E"
-        transparent
-        opacity={0.45}
-        sizeAttenuation
-      />
-    </points>
-  )
-}
-
-// ── Soft Glow Halo behind bottle ──
-function GlowHalo() {
-  const haloRef = useRef<THREE.Mesh>(null)
-
-  useFrame((state) => {
-    if (!haloRef.current) return
-    const mat = haloRef.current.material as THREE.MeshBasicMaterial
-    mat.opacity = 0.06 + Math.sin(state.clock.elapsedTime * 0.5) * 0.025
-  })
-
-  return (
-    <mesh ref={haloRef} position={[0, 0, -1.5]}>
-      <circleGeometry args={[2.2, 64]} />
-      <meshBasicMaterial
-        color="#E8D5A3"
-        transparent
-        opacity={0.07}
-        side={THREE.DoubleSide}
-      />
-    </mesh>
-  )
-}
-
-// ── 3D Scene ──
-function Scene3D() {
-  return (
-    <Canvas
-      camera={{ position: [0, 0, 6], fov: 40 }}
-      gl={{ antialias: true, alpha: true }}
-      dpr={[1, 1.5]}
-      className="w-full h-full"
-    >
-      <ambientLight intensity={0.6} color="#FFF8F0" />
-      <directionalLight position={[3, 6, 4]} intensity={1.8} color="#F5E6C8" castShadow />
-      <directionalLight position={[-4, 2, -2]} intensity={0.4} color="#E8D5B0" />
-      <pointLight position={[0, 4, 3]} intensity={1.2} color="#D4AF6E" />
-      <pointLight position={[-3, -2, 2]} intensity={0.3} color="#F0E6D3" />
-      <Suspense fallback={null}>
-        <Environment preset="studio" />
-        <GlowHalo />
-        <SerumBottle />
-        <GoldParticles />
-      </Suspense>
-    </Canvas>
-  )
 }
 
 export function HeroSection({ dict, lang }: HeroSectionProps) {
@@ -233,31 +15,277 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-[var(--color-ivory)]">
-      {/* Background gradient — warm ivory studio */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-ivory)] via-[var(--color-pearl)] to-[#EDE0CC]" />
 
-      {/* Noise texture */}
-      <div className="absolute inset-0 noise-overlay opacity-30" />
+      {/* ── Background: warm ivory studio gradient ── */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#FDFAF5] via-[#FAF5EC] to-[#F0E6D8]" />
 
-      {/* Soft radial glow — right side, behind bottle */}
-      <div
-        className="absolute right-0 top-1/2 -translate-y-1/2 w-[55%] h-[80%] pointer-events-none"
-        style={{
-          background: 'radial-gradient(ellipse at center, rgba(201,169,110,0.10) 0%, rgba(232,213,176,0.06) 40%, transparent 70%)',
-        }}
-      />
+      {/* ── Subtle noise texture ── */}
+      <div className="absolute inset-0 noise-overlay opacity-20" />
 
-      {/* 3D Canvas — right side */}
-      <div className="absolute right-0 top-0 w-full lg:w-[52%] h-full opacity-90 lg:opacity-100">
-        <Scene3D />
+      {/* ══════════════════════════════════════════
+          VISUAL COMPOSITION — right side
+          Pure CSS luxury skincare atmosphere
+      ══════════════════════════════════════════ */}
+      <div className="absolute right-0 top-0 w-full lg:w-[55%] h-full pointer-events-none select-none">
+
+        {/* ── Primary glow halo — soft champagne light ── */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.85 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 2.5, ease: 'easeOut' }}
+          className="absolute"
+          style={{
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '520px',
+            height: '520px',
+            borderRadius: '50%',
+            background: 'radial-gradient(ellipse at center, rgba(201,169,110,0.13) 0%, rgba(232,213,176,0.08) 40%, transparent 70%)',
+            filter: 'blur(2px)',
+          }}
+        />
+
+        {/* ── Secondary glow — rose gold accent ── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 3, delay: 0.5 }}
+          className="absolute"
+          style={{
+            top: '35%',
+            left: '55%',
+            width: '280px',
+            height: '280px',
+            borderRadius: '50%',
+            background: 'radial-gradient(ellipse at center, rgba(183,110,121,0.07) 0%, transparent 65%)',
+            filter: 'blur(1px)',
+          }}
+        />
+
+        {/* ── Central composition: elegant circle frame ── */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 2, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+          className="absolute"
+          style={{
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '340px',
+            height: '340px',
+          }}
+        >
+          {/* Outer ring */}
+          <div
+            className="absolute inset-0 rounded-full"
+            style={{
+              border: '1px solid rgba(201,169,110,0.18)',
+              boxShadow: '0 0 60px rgba(201,169,110,0.08)',
+            }}
+          />
+          {/* Middle ring */}
+          <div
+            className="absolute rounded-full"
+            style={{
+              inset: '28px',
+              border: '1px solid rgba(201,169,110,0.10)',
+            }}
+          />
+          {/* Inner fill — frosted pearl */}
+          <div
+            className="absolute rounded-full"
+            style={{
+              inset: '56px',
+              background: 'radial-gradient(ellipse at 40% 35%, rgba(250,248,245,0.95) 0%, rgba(240,230,216,0.7) 100%)',
+              boxShadow: 'inset 0 2px 24px rgba(201,169,110,0.12), 0 8px 48px rgba(201,169,110,0.10)',
+              backdropFilter: 'blur(8px)',
+            }}
+          />
+
+          {/* ── Monogram / brand mark inside circle ── */}
+          <div
+            className="absolute flex flex-col items-center justify-center"
+            style={{ inset: '56px' }}
+          >
+            {/* Decorative top line */}
+            <div style={{ width: '32px', height: '1px', background: 'rgba(160,120,64,0.4)', marginBottom: '10px' }} />
+            {/* Serif initial */}
+            <div
+              style={{
+                fontFamily: 'var(--font-serif)',
+                fontSize: '52px',
+                fontWeight: 300,
+                color: 'rgba(160,120,64,0.55)',
+                lineHeight: 1,
+                letterSpacing: '0.05em',
+              }}
+            >
+              B
+            </div>
+            {/* Sub text */}
+            <div
+              style={{
+                fontSize: '7px',
+                letterSpacing: '0.28em',
+                textTransform: 'uppercase',
+                color: 'rgba(160,120,64,0.45)',
+                marginTop: '6px',
+              }}
+            >
+              Hayat Skin
+            </div>
+            {/* Decorative bottom line */}
+            <div style={{ width: '32px', height: '1px', background: 'rgba(160,120,64,0.4)', marginTop: '10px' }} />
+          </div>
+        </motion.div>
+
+        {/* ── Floating element 1: small gold dot cluster — top right ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.8, delay: 0.8 }}
+          style={{ position: 'absolute', top: '22%', left: '72%' }}
+        >
+          <motion.div
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+            style={{ display: 'flex', flexDirection: 'column', gap: '5px', alignItems: 'center' }}
+          >
+            <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'rgba(201,169,110,0.5)' }} />
+            <div style={{ width: '2px', height: '2px', borderRadius: '50%', background: 'rgba(201,169,110,0.3)' }} />
+            <div style={{ width: '3px', height: '3px', borderRadius: '50%', background: 'rgba(201,169,110,0.4)' }} />
+          </motion.div>
+        </motion.div>
+
+        {/* ── Floating element 2: thin horizontal line — left of circle ── */}
+        <motion.div
+          initial={{ opacity: 0, scaleX: 0 }}
+          animate={{ opacity: 1, scaleX: 1 }}
+          transition={{ duration: 1.5, delay: 1.0 }}
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '12%',
+            transformOrigin: 'left center',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ width: '40px', height: '1px', background: 'rgba(201,169,110,0.3)' }} />
+            <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'rgba(201,169,110,0.35)' }} />
+          </div>
+        </motion.div>
+
+        {/* ── Floating element 3: small arc — bottom of circle ── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 2, delay: 1.2 }}
+          style={{ position: 'absolute', top: '68%', left: '44%' }}
+        >
+          <motion.div
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+          >
+            <svg width="48" height="24" viewBox="0 0 48 24" fill="none">
+              <path d="M2 22 Q24 2 46 22" stroke="rgba(201,169,110,0.25)" strokeWidth="1" fill="none" />
+            </svg>
+          </motion.div>
+        </motion.div>
+
+        {/* ── Floating element 4: tiny diamond — top left of circle ── */}
+        <motion.div
+          initial={{ opacity: 0, rotate: 0 }}
+          animate={{ opacity: 1, rotate: 45 }}
+          transition={{ duration: 1.5, delay: 1.4 }}
+          style={{ position: 'absolute', top: '28%', left: '30%' }}
+        >
+          <motion.div
+            animate={{ rotate: [45, 50, 45] }}
+            transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+            style={{
+              width: '8px',
+              height: '8px',
+              border: '1px solid rgba(201,169,110,0.35)',
+              transform: 'rotate(45deg)',
+            }}
+          />
+        </motion.div>
+
+        {/* ── Floating element 5: small circle ring — bottom right ── */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.8, delay: 1.6 }}
+          style={{ position: 'absolute', top: '65%', left: '68%' }}
+        >
+          <motion.div
+            animate={{ scale: [1, 1.08, 1] }}
+            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+            style={{
+              width: '20px',
+              height: '20px',
+              borderRadius: '50%',
+              border: '1px solid rgba(201,169,110,0.28)',
+            }}
+          />
+        </motion.div>
+
+        {/* ── Floating element 6: vertical text label ── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 2, delay: 1.8 }}
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '82%',
+            transform: 'translateY(-50%) rotate(90deg)',
+            transformOrigin: 'center center',
+          }}
+        >
+          <span
+            style={{
+              fontSize: '7px',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              color: 'rgba(160,120,64,0.35)',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Dubai · UAE
+          </span>
+        </motion.div>
+
+        {/* ── Soft light streak — diagonal ── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 3, delay: 0.6 }}
+          style={{
+            position: 'absolute',
+            top: '15%',
+            left: '20%',
+            width: '2px',
+            height: '120px',
+            background: 'linear-gradient(to bottom, transparent, rgba(201,169,110,0.15), transparent)',
+            transform: 'rotate(25deg)',
+            filter: 'blur(1px)',
+          }}
+        />
+
       </div>
 
-      {/* Soft vignette — left content protection */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-ivory)] via-[var(--color-ivory)]/85 to-transparent lg:via-[var(--color-ivory)]/55" />
+      {/* ── Left content vignette ── */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-ivory)] via-[var(--color-ivory)]/90 to-transparent lg:via-[var(--color-ivory)]/60" />
 
-      {/* Content */}
+      {/* ══════════════════════════════════════════
+          CONTENT
+      ══════════════════════════════════════════ */}
       <div className="relative z-10 container-luxury w-full pt-32 pb-20">
         <div className="max-w-2xl">
+
           {/* Tagline */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -340,6 +368,7 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
               </div>
             ))}
           </motion.div>
+
         </div>
       </div>
 
@@ -358,6 +387,7 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
           <ArrowDown size={14} className="text-[var(--color-champagne)]" />
         </motion.div>
       </motion.div>
+
     </section>
   )
 }
