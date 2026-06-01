@@ -7,10 +7,17 @@ import { useRef, useEffect, useState } from 'react'
 import { ArrowDown } from 'lucide-react'
 import type { DictionaryType, Locale } from '@/lib/i18n/dictionaries'
 
-// Three.js scene — client only
+// Three.js scene — client only, non-blocking
 const HeroScene3D = dynamic(() => import('./HeroScene3D'), {
   ssr: false,
-  loading: () => <div className="w-full h-full" />,
+  loading: () => (
+    <div
+      className="w-full h-full"
+      style={{
+        background: 'radial-gradient(ellipse at 60% 50%, rgba(201,169,110,0.07) 0%, transparent 65%)',
+      }}
+    />
+  ),
 })
 
 interface HeroSectionProps {
@@ -28,8 +35,8 @@ function SplitText({ text, delay = 0, className = '' }: { text: string; delay?: 
           initial={{ y: '110%', opacity: 0 }}
           animate={{ y: '0%', opacity: 1 }}
           transition={{
-            duration: 0.7,
-            delay: delay + i * 0.028,
+            duration: 0.5,
+            delay: delay + i * 0.016,
             ease: [0.16, 1, 0.3, 1],
           }}
           className="inline-block"
@@ -214,7 +221,7 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.1 }}
+                transition={{ duration: 0.4, delay: 0 }}
                 className="flex items-center gap-4 mb-6"
               >
                 <div style={{ width: '32px', height: '1px', background: 'rgba(201,169,110,0.7)' }} />
@@ -243,7 +250,7 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
                         backgroundClip: i === 1 ? 'text' : 'unset',
                       }}
                     >
-                      <SplitText text={line} delay={0.3 + i * 0.15} />
+                      <SplitText text={line} delay={0.05 + i * 0.08} />
                     </div>
                   </div>
                 ))}
@@ -256,7 +263,7 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
                 <motion.p
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.9 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
                   className="text-sm leading-relaxed max-w-sm"
                   style={{ color: 'rgba(200,185,165,0.7)' }}
                 >
@@ -267,7 +274,7 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
                 <motion.div
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 1.05 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
                   className="flex flex-col sm:flex-row gap-3 lg:ml-auto"
                 >
                   <Link
@@ -312,7 +319,7 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: 1.3 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
                 className="flex items-center gap-10 mt-12 pt-8"
                 style={{ borderTop: '1px solid rgba(201,169,110,0.12)' }}
               >
