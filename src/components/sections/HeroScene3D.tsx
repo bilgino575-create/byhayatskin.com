@@ -24,6 +24,14 @@ function MascaraModel({ isMobile }: { isMobile: boolean }) {
 
   const cloned = useMemo(() => scene.clone(), [scene])
 
+  // Auto-center: compute bounding box and offset so model origin = center
+  const centerOffset = useMemo(() => {
+    const box = new THREE.Box3().setFromObject(cloned)
+    const center = new THREE.Vector3()
+    box.getCenter(center)
+    return center
+  }, [cloned])
+
   useMemo(() => {
     cloned.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
@@ -44,13 +52,16 @@ function MascaraModel({ isMobile }: { isMobile: boolean }) {
     groupRef.current.rotation.z = Math.sin(t * 0.25) * 0.06
   })
 
-  const scale: [number, number, number] = isMobile ? [7, 7, 7] : [14, 14, 14]
-  const position: [number, number, number] = isMobile ? [0, 0, 0] : [3.2, -1.8, 0]
+  const scale: [number, number, number] = isMobile ? [6, 6, 6] : [13, 13, 13]
+  const position: [number, number, number] = isMobile ? [0, -0.5, 0] : [0, -0.5, 0]
 
   return (
     <Float speed={1.2} rotationIntensity={0.06} floatIntensity={isMobile ? 0.15 : 0.3}>
       <group ref={groupRef} scale={scale} position={position}>
-        <primitive object={cloned} />
+        {/* Offset inner group to cancel GLB's own origin offset */}
+        <group position={[-centerOffset.x, -centerOffset.y, -centerOffset.z]}>
+          <primitive object={cloned} />
+        </group>
       </group>
     </Float>
   )
@@ -105,7 +116,7 @@ function GlowRing({ isMobile }: { isMobile: boolean }) {
     mat.opacity = 0.05 + Math.sin(state.clock.elapsedTime * 0.6) * 0.02
   })
 
-  const pos: [number, number, number] = isMobile ? [0, 0, -3] : [1.2, 0, -3]
+  const pos: [number, number, number] = [0, 0, -3]
 
   return (
     <mesh ref={meshRef} position={pos}>
@@ -186,9 +197,9 @@ export default function HeroScene3D() {
   const isMobile = isMobileRaw
 
   const cameraPosition: [number, number, number] = isMobile
-    ? [0, 0.5, 8]
-    : [-2.0, 0.3, 5.5]
-  const cameraFov = isMobile ? 52 : 38
+    ? [0, 0, 9]
+    : [0, 0, 6]
+  const cameraFov = isMobile ? 55 : 42
 
   return (
     // key forces Canvas remount when mobile/desktop switches

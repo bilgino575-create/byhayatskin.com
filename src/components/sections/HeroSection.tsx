@@ -95,13 +95,13 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
       >
         {/* ── Ambient background glow ── */}
         <div className="absolute inset-0 pointer-events-none">
-          {/* Right side glow — where 3D model sits */}
+          {/* Center glow — where 3D model sits */}
           <div
             className="absolute"
             style={{
-              top: '5%', right: '-10%',
-              width: '65%', height: '90%',
-              background: 'radial-gradient(ellipse at 60% 40%, rgba(201,169,110,0.07) 0%, rgba(160,120,64,0.03) 40%, transparent 70%)',
+              top: '5%', left: '50%', transform: 'translateX(-50%)',
+              width: '80%', height: '90%',
+              background: 'radial-gradient(ellipse at 50% 40%, rgba(201,169,110,0.07) 0%, rgba(160,120,64,0.03) 40%, transparent 70%)',
               filter: 'blur(1px)',
             }}
           />
@@ -117,9 +117,9 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
           <div className="absolute inset-0 noise-overlay opacity-30" />
         </div>
 
-        {/* ── 3D Scene — right half on desktop, full bg on mobile ── */}
+        {/* ── 3D Scene — full width, model centered via 3D camera ── */}
         <motion.div
-          className="absolute inset-0 md:left-[45%]"
+          className="absolute inset-0"
           style={{ scale: sceneScale, opacity: sceneOpacity }}
         >
           <HeroScene3D />
