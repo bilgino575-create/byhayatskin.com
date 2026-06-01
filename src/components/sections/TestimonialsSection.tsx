@@ -52,7 +52,7 @@ export function TestimonialsSection({ dict }: TestimonialsSectionProps) {
     <section
       ref={sectionRef}
       className="relative overflow-hidden"
-      style={{ background: '#060504', paddingTop: '10rem', paddingBottom: '10rem' }}
+      style={{ background: '#FAF8F5', paddingTop: '10rem', paddingBottom: '10rem' }}
     >
       {/* ── Large quote mark watermark ── */}
       <div
@@ -63,7 +63,7 @@ export function TestimonialsSection({ dict }: TestimonialsSectionProps) {
           fontSize: 'clamp(200px, 30vw, 400px)',
           fontFamily: 'Georgia, serif',
           fontWeight: 700,
-          color: 'rgba(201,169,110,0.03)',
+          color: 'rgba(160,120,64,0.05)',
           lineHeight: 1,
         }}
       >
@@ -134,7 +134,7 @@ export function TestimonialsSection({ dict }: TestimonialsSectionProps) {
                     fontFamily: 'var(--font-cormorant), Georgia, serif',
                     fontSize: 'clamp(1.4rem, 2.8vw, 2.2rem)',
                     fontWeight: 300,
-                    color: 'rgba(245,237,216,0.85)',
+                    color: 'rgba(30,20,10,0.8)',
                     fontStyle: 'italic',
                   }}
                 >
@@ -169,7 +169,7 @@ export function TestimonialsSection({ dict }: TestimonialsSectionProps) {
                         fontFamily: 'var(--font-cormorant), Georgia, serif',
                         fontSize: '1.1rem',
                         fontWeight: 400,
-                        color: '#E8DDD0',
+                        color: '#2A1F10',
                       }}
                     >
                       {testimonials[active].name}

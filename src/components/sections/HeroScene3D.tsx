@@ -138,13 +138,13 @@ export default function HeroScene3D() {
       dpr={[1, 1.5]}
       style={{ width: '100%', height: '100%' }}
     >
-      {/* Lighting — warm luxury studio */}
-      <ambientLight intensity={0.5} color="#FFF0E0" />
-      <directionalLight position={[4, 8, 5]} intensity={2.0} color="#F5E6C8" />
-      <directionalLight position={[-5, 3, -2]} intensity={0.6} color="#E8D5B0" />
-      <pointLight position={[0, 5, 3]} intensity={1.5} color="#D4AF6E" />
-      <pointLight position={[-3, -2, 3]} intensity={0.4} color="#F0E0D0" />
-      <pointLight position={[3, 2, -1]} intensity={0.3} color="#C9A96E" />
+      {/* Lighting — bright luxury studio for light theme */}
+      <ambientLight intensity={1.2} color="#FFF8F0" />
+      <directionalLight position={[4, 8, 5]} intensity={2.5} color="#FFFFFF" />
+      <directionalLight position={[-5, 3, -2]} intensity={1.0} color="#F5EDD8" />
+      <pointLight position={[0, 5, 3]} intensity={2.0} color="#E8D5B0" />
+      <pointLight position={[-3, -2, 3]} intensity={0.6} color="#F5EDD8" />
+      <pointLight position={[3, 2, -1]} intensity={0.5} color="#C9A96E" />
 
       <Suspense fallback={<LoadingFallback />}>
         <Environment preset="studio" />

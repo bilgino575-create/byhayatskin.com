@@ -32,7 +32,7 @@ export function BrandStorySection({ dict }: BrandStorySectionProps) {
     <section
       ref={sectionRef}
       className="relative overflow-hidden"
-      style={{ background: '#0A0806', minHeight: '100vh' }}
+      style={{ background: '#FAF8F5', minHeight: '100vh' }}
     >
       {/* ── Parallax background texture ── */}
       <motion.div
@@ -48,7 +48,7 @@ export function BrandStorySection({ dict }: BrandStorySectionProps) {
             fontSize: 'clamp(120px, 20vw, 280px)',
             fontFamily: 'var(--font-cormorant), Georgia, serif',
             fontWeight: 300,
-            color: 'rgba(201,169,110,0.04)',
+            color: 'rgba(160,120,64,0.05)',
             lineHeight: 1,
             letterSpacing: '-0.04em',
             userSelect: 'none',
@@ -64,7 +64,7 @@ export function BrandStorySection({ dict }: BrandStorySectionProps) {
             left: '30%',
             width: '1px',
             height: '100%',
-            background: 'linear-gradient(to bottom, transparent 0%, rgba(201,169,110,0.06) 30%, rgba(201,169,110,0.12) 50%, rgba(201,169,110,0.06) 70%, transparent 100%)',
+            background: 'linear-gradient(to bottom, transparent 0%, rgba(201,169,110,0.08) 30%, rgba(201,169,110,0.15) 50%, rgba(201,169,110,0.08) 70%, transparent 100%)',
           }}
         />
       </motion.div>
@@ -127,8 +127,8 @@ export function BrandStorySection({ dict }: BrandStorySectionProps) {
                     fontSize: 'clamp(2.8rem, 6.5vw, 6rem)',
                     fontWeight: 300,
                     letterSpacing: '-0.02em',
-                    color: lineIdx % 2 === 0 ? '#F5EDD8' : 'transparent',
-                    WebkitTextStroke: lineIdx % 2 !== 0 ? '1px rgba(201,169,110,0.5)' : 'none',
+                    color: lineIdx % 2 === 0 ? '#1A1A1A' : 'transparent',
+                    WebkitTextStroke: lineIdx % 2 !== 0 ? '1px rgba(160,120,64,0.5)' : 'none',
                   }}
                 >
                   {words.join(' ')}
@@ -149,7 +149,7 @@ export function BrandStorySection({ dict }: BrandStorySectionProps) {
           >
             <p
               className="text-base leading-[1.9] mb-8"
-              style={{ color: 'rgba(200,185,165,0.65)' }}
+              style={{ color: 'rgba(80,65,50,0.7)' }}
             >
               {dict.brand_story.body}
             </p>

@@ -39,7 +39,7 @@ export function WhyUsSection({ dict }: WhyUsSectionProps) {
     <section
       ref={sectionRef}
       className="relative overflow-hidden"
-      style={{ background: '#080604', paddingTop: '10rem', paddingBottom: '10rem' }}
+      style={{ background: '#FDFAF5', paddingTop: '10rem', paddingBottom: '10rem' }}
     >
       {/* ── Parallax background number ── */}
       <motion.div
@@ -51,7 +51,7 @@ export function WhyUsSection({ dict }: WhyUsSectionProps) {
           fontSize: 'clamp(200px, 35vw, 480px)',
           fontFamily: 'var(--font-cormorant), Georgia, serif',
           fontWeight: 300,
-          color: 'rgba(201,169,110,0.025)',
+          color: 'rgba(160,120,64,0.04)',
           lineHeight: 1,
           letterSpacing: '-0.05em',
         }}
@@ -94,7 +94,7 @@ export function WhyUsSection({ dict }: WhyUsSectionProps) {
                 fontSize: 'clamp(2.5rem, 5.5vw, 5rem)',
                 fontWeight: 300,
                 letterSpacing: '-0.02em',
-                color: '#F5EDD8',
+                color: '#1A1A1A',
                 lineHeight: 1.05,
               }}
             >
@@ -141,7 +141,7 @@ export function WhyUsSection({ dict }: WhyUsSectionProps) {
                     fontFamily: 'var(--font-cormorant), Georgia, serif',
                     fontSize: 'clamp(1.3rem, 2.5vw, 2rem)',
                     fontWeight: 300,
-                    color: '#E8DDD0',
+                    color: '#2A2018',
                     letterSpacing: '-0.01em',
                   }}
                 >
@@ -149,7 +149,7 @@ export function WhyUsSection({ dict }: WhyUsSectionProps) {
                 </div>
                 <p
                   className="text-sm leading-relaxed max-w-xl"
-                  style={{ color: 'rgba(200,185,165,0.45)' }}
+                  style={{ color: 'rgba(80,65,50,0.6)' }}
                 >
                   {feature.desc}
                 </p>

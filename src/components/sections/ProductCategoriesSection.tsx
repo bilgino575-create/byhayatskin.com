@@ -53,7 +53,7 @@ export function ProductCategoriesSection({ dict, lang }: ProductCategoriesSectio
     <section
       ref={sectionRef}
       className="relative overflow-hidden"
-      style={{ background: '#0C0A07', paddingTop: '10rem', paddingBottom: '10rem' }}
+      style={{ background: '#FDFAF5', paddingTop: '10rem', paddingBottom: '10rem' }}
     >
       {/* ── Parallax background text ── */}
       <motion.div
@@ -65,7 +65,7 @@ export function ProductCategoriesSection({ dict, lang }: ProductCategoriesSectio
           fontSize: 'clamp(120px, 22vw, 320px)',
           fontFamily: 'var(--font-cormorant), Georgia, serif',
           fontWeight: 300,
-          color: 'rgba(201,169,110,0.025)',
+          color: 'rgba(160,120,64,0.04)',
           lineHeight: 1,
           letterSpacing: '-0.04em',
         }}

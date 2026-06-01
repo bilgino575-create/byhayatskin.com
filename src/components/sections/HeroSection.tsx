@@ -14,7 +14,7 @@ const HeroScene3D = dynamic(() => import('./HeroScene3D'), {
     <div
       className="w-full h-full"
       style={{
-        background: 'radial-gradient(ellipse at 60% 50%, rgba(201,169,110,0.07) 0%, transparent 65%)',
+        background: 'radial-gradient(ellipse at 60% 50%, rgba(201,169,110,0.08) 0%, transparent 65%)',
       }}
     />
   ),
@@ -67,12 +67,12 @@ function MagneticCursor() {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 w-8 h-8 pointer-events-none z-[9999] mix-blend-difference"
+      className="fixed top-0 left-0 w-7 h-7 pointer-events-none z-[9999] mix-blend-multiply"
       style={{ x: springX, y: springY }}
     >
       <div
         className="w-full h-full rounded-full"
-        style={{ background: 'rgba(201,169,110,0.9)' }}
+        style={{ background: 'rgba(160,120,64,0.35)' }}
       />
     </motion.div>
   )
@@ -84,7 +84,10 @@ function MarqueeStrip() {
   const doubled = [...items, ...items]
 
   return (
-    <div className="overflow-hidden py-3 border-y border-[rgba(201,169,110,0.15)]">
+    <div
+      className="overflow-hidden py-3"
+      style={{ borderTop: '1px solid rgba(160,120,64,0.15)', borderBottom: '1px solid rgba(160,120,64,0.15)' }}
+    >
       <motion.div
         className="flex gap-12 whitespace-nowrap"
         animate={{ x: ['0%', '-50%'] }}
@@ -94,11 +97,11 @@ function MarqueeStrip() {
           <span key={i} className="flex items-center gap-12">
             <span
               className="text-[0.6rem] tracking-[0.35em] uppercase"
-              style={{ color: 'rgba(160,120,64,0.5)' }}
+              style={{ color: 'rgba(160,120,64,0.45)' }}
             >
               {item}
             </span>
-            <span style={{ color: 'rgba(201,169,110,0.3)', fontSize: '6px' }}>✦</span>
+            <span style={{ color: 'rgba(160,120,64,0.25)', fontSize: '6px' }}>✦</span>
           </span>
         ))}
       </motion.div>
@@ -115,10 +118,8 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
     offset: ['start start', 'end start'],
   })
 
-  // Parallax transforms
-  const textY = useTransform(scrollYProgress, [0, 1], ['0%', '25%'])
-  const sceneScale = useTransform(scrollYProgress, [0, 1], [1, 1.08])
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.6], [0, 0.5])
+  const textY = useTransform(scrollYProgress, [0, 1], ['0%', '20%'])
+  const sceneScale = useTransform(scrollYProgress, [0, 1], [1, 1.06])
 
   useEffect(() => { setMounted(true) }, [])
 
@@ -131,17 +132,33 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
       <section
         ref={sectionRef}
         className="relative w-full overflow-hidden"
-        style={{ height: '100svh', minHeight: '700px' }}
+        style={{ height: '100svh', minHeight: '700px', background: '#FDFAF5' }}
       >
-        {/* ══ LAYER 0: Deep background ══ */}
+        {/* ── Background: warm ivory gradient ── */}
         <div
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(160deg, #0D0B09 0%, #1A1410 35%, #0F0C09 100%)',
+            background: 'linear-gradient(135deg, #FDFAF5 0%, #FAF5EC 40%, #F5EDE0 100%)',
           }}
         />
 
-        {/* ══ LAYER 1: 3D Scene — full screen ══ */}
+        {/* ── Subtle noise texture ── */}
+        <div className="absolute inset-0 noise-overlay opacity-20" />
+
+        {/* ── Soft champagne radial glow — right side ── */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            top: '10%',
+            right: '-5%',
+            width: '60%',
+            height: '80%',
+            background: 'radial-gradient(ellipse at center, rgba(201,169,110,0.12) 0%, rgba(232,213,176,0.06) 45%, transparent 70%)',
+            filter: 'blur(2px)',
+          }}
+        />
+
+        {/* ── 3D Scene — full screen ── */}
         <motion.div
           className="absolute inset-0"
           style={{ scale: sceneScale }}
@@ -149,61 +166,29 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
           <HeroScene3D />
         </motion.div>
 
-        {/* ══ LAYER 2: Cinematic gradient overlays ══ */}
-        {/* Bottom vignette */}
+        {/* ── Left content vignette ── */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: 'linear-gradient(to top, rgba(13,11,9,0.95) 0%, rgba(13,11,9,0.4) 30%, transparent 60%)',
+            background: 'linear-gradient(to right, rgba(253,250,245,0.96) 0%, rgba(253,250,245,0.85) 35%, rgba(253,250,245,0.3) 60%, transparent 80%)',
           }}
-        />
-        {/* Left vignette */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: 'linear-gradient(to right, rgba(13,11,9,0.7) 0%, rgba(13,11,9,0.2) 40%, transparent 70%)',
-          }}
-        />
-        {/* Top vignette */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: 'linear-gradient(to bottom, rgba(13,11,9,0.6) 0%, transparent 25%)',
-          }}
-        />
-        {/* Scroll-driven darkening */}
-        <motion.div
-          className="absolute inset-0 pointer-events-none bg-[#0D0B09]"
-          style={{ opacity: overlayOpacity }}
         />
 
-        {/* ══ LAYER 3: Ambient light streaks ══ */}
+        {/* ── Ambient light streaks ── */}
         <div
           className="absolute pointer-events-none"
           style={{
-            top: '15%',
-            right: '20%',
+            top: '20%',
+            right: '25%',
             width: '1px',
-            height: '180px',
-            background: 'linear-gradient(to bottom, transparent, rgba(201,169,110,0.25), transparent)',
-            transform: 'rotate(15deg)',
-            filter: 'blur(0.5px)',
-          }}
-        />
-        <div
-          className="absolute pointer-events-none"
-          style={{
-            top: '25%',
-            right: '35%',
-            width: '1px',
-            height: '120px',
-            background: 'linear-gradient(to bottom, transparent, rgba(183,110,121,0.15), transparent)',
-            transform: 'rotate(-8deg)',
+            height: '140px',
+            background: 'linear-gradient(to bottom, transparent, rgba(201,169,110,0.2), transparent)',
+            transform: 'rotate(12deg)',
             filter: 'blur(0.5px)',
           }}
         />
 
-        {/* ══ LAYER 4: Content ══ */}
+        {/* ── Content ── */}
         <motion.div
           className="absolute inset-0 flex flex-col justify-end pointer-events-none"
           style={{ y: textY }}
@@ -215,7 +200,7 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
 
           {/* Main content block */}
           <div className="container-luxury pb-16 lg:pb-20 pointer-events-auto">
-            <div className="max-w-5xl">
+            <div className="max-w-2xl">
 
               {/* Eyebrow */}
               <motion.div
@@ -224,10 +209,10 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
                 transition={{ duration: 0.4, delay: 0 }}
                 className="flex items-center gap-4 mb-6"
               >
-                <div style={{ width: '32px', height: '1px', background: 'rgba(201,169,110,0.7)' }} />
+                <div style={{ width: '32px', height: '1px', background: 'rgba(160,120,64,0.6)' }} />
                 <span
                   className="text-[0.62rem] tracking-[0.35em] uppercase"
-                  style={{ color: 'rgba(201,169,110,0.8)' }}
+                  style={{ color: 'rgba(160,120,64,0.8)' }}
                 >
                   {dict.hero.tagline}
                 </span>
@@ -238,13 +223,13 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
                 {lines.map((line, i) => (
                   <div key={i} className="overflow-hidden leading-[1.05]">
                     <div
-                      className="text-[clamp(3rem,7vw,6.5rem)] font-light tracking-[-0.02em]"
+                      className="text-[clamp(2.8rem,6.5vw,6rem)] font-light tracking-[-0.02em]"
                       style={{
                         fontFamily: 'var(--font-cormorant), Georgia, serif',
-                        color: i === 1 ? 'transparent' : '#F5EDD8',
-                        WebkitTextStroke: i === 1 ? '1px rgba(201,169,110,0.8)' : 'none',
+                        color: i === 1 ? 'transparent' : '#1A1A1A',
+                        WebkitTextStroke: i === 1 ? '1px rgba(160,120,64,0.7)' : 'none',
                         backgroundImage: i === 1
-                          ? 'linear-gradient(90deg, #C9A96E 0%, #E8D5B0 40%, #C9A96E 70%, #A07840 100%)'
+                          ? 'linear-gradient(90deg, #A07840 0%, #C9A96E 40%, #A07840 70%, #8B6914 100%)'
                           : 'none',
                         WebkitBackgroundClip: i === 1 ? 'text' : 'unset',
                         backgroundClip: i === 1 ? 'text' : 'unset',
@@ -265,7 +250,7 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.3 }}
                   className="text-sm leading-relaxed max-w-sm"
-                  style={{ color: 'rgba(200,185,165,0.7)' }}
+                  style={{ color: 'rgba(100,85,70,0.7)' }}
                 >
                   {dict.hero.subheadline}
                 </motion.p>
@@ -281,14 +266,14 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
                     href={`/${lang}/products`}
                     className="group relative overflow-hidden px-8 py-3.5 text-[0.7rem] tracking-[0.2em] uppercase font-medium transition-all duration-500"
                     style={{
-                      background: 'linear-gradient(135deg, #C9A96E 0%, #A07840 100%)',
-                      color: '#0D0B09',
+                      background: 'linear-gradient(135deg, #A07840 0%, #C9A96E 100%)',
+                      color: '#FDFAF5',
                     }}
                   >
                     <span className="relative z-10">{dict.hero.cta_primary}</span>
                     <div
                       className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                      style={{ background: 'linear-gradient(135deg, #E8D5B0 0%, #C9A96E 100%)' }}
+                      style={{ background: 'linear-gradient(135deg, #C9A96E 0%, #E8D5B0 100%)' }}
                     />
                   </Link>
 
@@ -296,17 +281,16 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
                     href={`/${lang}/consultation`}
                     className="group px-8 py-3.5 text-[0.7rem] tracking-[0.2em] uppercase font-medium transition-all duration-500"
                     style={{
-                      border: '1px solid rgba(201,169,110,0.35)',
-                      color: 'rgba(201,169,110,0.85)',
+                      border: '1px solid rgba(160,120,64,0.4)',
+                      color: 'rgba(160,120,64,0.9)',
+                      background: 'transparent',
                     }}
                     onMouseEnter={e => {
-                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(201,169,110,0.8)'
-                      ;(e.currentTarget as HTMLElement).style.color = '#C9A96E'
-                      ;(e.currentTarget as HTMLElement).style.background = 'rgba(201,169,110,0.06)'
+                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(160,120,64,0.8)'
+                      ;(e.currentTarget as HTMLElement).style.background = 'rgba(160,120,64,0.06)'
                     }}
                     onMouseLeave={e => {
-                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(201,169,110,0.35)'
-                      ;(e.currentTarget as HTMLElement).style.color = 'rgba(201,169,110,0.85)'
+                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(160,120,64,0.4)'
                       ;(e.currentTarget as HTMLElement).style.background = 'transparent'
                     }}
                   >
@@ -321,7 +305,7 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
                 className="flex items-center gap-10 mt-12 pt-8"
-                style={{ borderTop: '1px solid rgba(201,169,110,0.12)' }}
+                style={{ borderTop: '1px solid rgba(160,120,64,0.15)' }}
               >
                 {[
                   { value: dict.brand_story.stat_1_value, label: dict.brand_story.stat_1_label },
@@ -333,7 +317,7 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
                       className="text-2xl lg:text-3xl font-light mb-0.5"
                       style={{
                         fontFamily: 'var(--font-cormorant), Georgia, serif',
-                        background: 'linear-gradient(90deg, #C9A96E, #E8D5B0)',
+                        background: 'linear-gradient(90deg, #A07840, #C9A96E)',
                         WebkitBackgroundClip: 'text',
                         WebkitTextFillColor: 'transparent',
                         backgroundClip: 'text',
@@ -343,15 +327,15 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
                     </div>
                     <div
                       className="text-[0.58rem] tracking-[0.18em] uppercase"
-                      style={{ color: 'rgba(200,185,165,0.5)' }}
+                      style={{ color: 'rgba(100,85,70,0.5)' }}
                     >
                       {stat.label}
                     </div>
                   </div>
                 ))}
 
-                {/* Scroll hint — right aligned */}
-                <div className="ml-auto flex flex-col items-center gap-2" style={{ color: 'rgba(201,169,110,0.4)' }}>
+                {/* Scroll hint */}
+                <div className="ml-auto flex flex-col items-center gap-2" style={{ color: 'rgba(160,120,64,0.5)' }}>
                   <span className="text-[0.55rem] tracking-[0.25em] uppercase">{dict.hero.scroll}</span>
                   <motion.div
                     animate={{ y: [0, 7, 0] }}
@@ -366,20 +350,20 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
           </div>
         </motion.div>
 
-        {/* ══ LAYER 5: Top-right corner detail ══ */}
+        {/* ── Top-right corner detail ── */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 2, delay: 1.5 }}
+          transition={{ duration: 1.5, delay: 0.8 }}
           className="absolute top-24 right-8 lg:right-16 flex flex-col items-end gap-1 pointer-events-none"
         >
           <span
             className="text-[0.55rem] tracking-[0.3em] uppercase"
-            style={{ color: 'rgba(201,169,110,0.3)' }}
+            style={{ color: 'rgba(160,120,64,0.3)' }}
           >
             Est. Dubai
           </span>
-          <div style={{ width: '24px', height: '1px', background: 'rgba(201,169,110,0.2)' }} />
+          <div style={{ width: '24px', height: '1px', background: 'rgba(160,120,64,0.2)' }} />
         </motion.div>
 
       </section>
