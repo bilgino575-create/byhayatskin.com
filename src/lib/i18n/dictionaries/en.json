@@ -1,0 +1,153 @@
+{
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "consultation": "Consultation",
+    "blog": "Journal",
+    "about": "About",
+    "contact": "Contact",
+    "cta": "Get Skin Plan"
+  },
+  "hero": {
+    "tagline": "Dubai's Luxury Skincare House",
+    "headline": "Luxury Skincare\nDesigned For\nYour Skin",
+    "subheadline": "Personalized skincare consultations and premium products crafted for the Dubai climate.",
+    "cta_primary": "Shop Products",
+    "cta_secondary": "Get Personalized Skin Plan",
+    "scroll": "Scroll to explore"
+  },
+  "brand_story": {
+    "label": "Our Story",
+    "headline": "Where Science Meets Luxury",
+    "body": "Born in Dubai, By Hayat Skin is a luxury skincare house dedicated to the art of personalized beauty. We combine dermatology-inspired formulations with the opulence of a luxury brand — creating skincare rituals that transform, protect, and elevate.",
+    "stat_1_value": "500+",
+    "stat_1_label": "Clients Transformed",
+    "stat_2_value": "15+",
+    "stat_2_label": "Premium Ingredients",
+    "stat_3_value": "100%",
+    "stat_3_label": "Personalized Plans"
+  },
+  "skin_diagnosis": {
+    "label": "Skin Analysis",
+    "headline": "Discover Your Skin Type",
+    "subheadline": "Select your skin type to receive a personalized routine and product recommendations.",
+    "types": {
+      "dry": { "name": "Dry Skin", "description": "Lacks moisture, feels tight and flaky" },
+      "oily": { "name": "Oily Skin", "description": "Excess sebum, prone to shine and breakouts" },
+      "combination": { "name": "Combination", "description": "Oily T-zone with dry cheeks" },
+      "sensitive": { "name": "Sensitive Skin", "description": "Reactive, easily irritated or reddened" },
+      "acne": { "name": "Acne-Prone", "description": "Frequent breakouts and blemishes" }
+    },
+    "routine_label": "Your Recommended Routine",
+    "cta": "Get Full Consultation"
+  },
+  "categories": {
+    "label": "Our Collections",
+    "headline": "Curated for Every Skin Need",
+    "items": {
+      "serums": "Serums",
+      "moisturizers": "Moisturizers",
+      "cleansers": "Cleansers",
+      "masks": "Masks",
+      "spf": "SPF Protection",
+      "eye_care": "Eye Care",
+      "anti_aging": "Anti-Aging",
+      "acne": "Acne Treatment",
+      "pigmentation": "Pigmentation Care",
+      "barrier": "Barrier Repair",
+      "kits": "Luxury Ritual Kits"
+    },
+    "cta": "Shop All"
+  },
+  "consultation": {
+    "label": "Personalized Care",
+    "headline": "Your Skin, Your Ritual",
+    "subheadline": "Our expert consultation system analyzes your unique skin profile to create a bespoke skincare routine.",
+    "steps": {
+      "skin_type": "Skin Type",
+      "concerns": "Skin Concerns",
+      "lifestyle": "Lifestyle",
+      "climate": "Climate Factor",
+      "goals": "Your Goals"
+    },
+    "cta": "Start Consultation",
+    "features": {
+      "am": "AM Routine",
+      "pm": "PM Routine",
+      "products": "Product List",
+      "plan": "Treatment Plan"
+    }
+  },
+  "why_us": {
+    "label": "Why By Hayat Skin",
+    "headline": "The Difference is in the Details",
+    "features": {
+      "expert": { "title": "Expert Curated", "desc": "Every product is hand-selected by skincare specialists with clinical expertise." },
+      "climate": { "title": "Dubai Climate Optimized", "desc": "Formulations designed for the heat, humidity, and UV intensity of the UAE." },
+      "luxury": { "title": "Luxury Selection", "desc": "Only the finest ingredients and most effective formulations make our collection." },
+      "personal": { "title": "Personalized System", "desc": "No two skins are alike. Your routine is built exclusively for you." },
+      "longterm": { "title": "Long-Term Strategy", "desc": "We focus on lasting skin health, not quick fixes." }
+    }
+  },
+  "testimonials": {
+    "label": "Client Stories",
+    "headline": "Transformations That Speak"
+  },
+  "blog": {
+    "label": "Knowledge Hub",
+    "headline": "The Skincare Journal",
+    "subheadline": "Expert insights, ingredient science, and personalized routines for every skin type.",
+    "read_more": "Read Article",
+    "view_all": "View All Articles"
+  },
+  "instagram": {
+    "label": "Follow Our Journey",
+    "headline": "@byhayatskin",
+    "cta": "Follow on Instagram"
+  },
+  "final_cta": {
+    "headline": "Start Your Personalized\nSkincare Journey",
+    "subheadline": "Join hundreds of clients who have transformed their skin with By Hayat Skin.",
+    "cta_primary": "Shop Now",
+    "cta_secondary": "Book Consultation",
+    "whatsapp": "Chat on WhatsApp"
+  },
+  "footer": {
+    "tagline": "Luxury Skincare. Personalized for You.",
+    "links": {
+      "products": "Products",
+      "consultation": "Consultation",
+      "blog": "Journal",
+      "about": "About Us",
+      "contact": "Contact",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service"
+    },
+    "contact": {
+      "phone": "+971 52 450 2886",
+      "location": "Dubai, United Arab Emirates",
+      "email": "hello@byhayatskin.com"
+    },
+    "copyright": "© 2025 By Hayat Skin. All rights reserved."
+  },
+  "products": {
+    "headline": "Our Products",
+    "filter_skin_type": "Skin Type",
+    "filter_concern": "Concern",
+    "filter_price": "Price",
+    "add_to_cart": "Add to Cart",
+    "add_to_wishlist": "Wishlist",
+    "view_details": "View Details",
+    "out_of_stock": "Out of Stock",
+    "new": "New",
+    "bestseller": "Bestseller"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "back": "Back",
+    "close": "Close",
+    "learn_more": "Learn More",
+    "aed": "AED"
+  }
+}

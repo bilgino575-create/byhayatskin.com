@@ -1,0 +1,16 @@
+{
+  "nav": { "home": "首页", "products": "产品", "consultation": "咨询", "blog": "杂志", "about": "关于我们", "contact": "联系我们", "cta": "获取护肤方案" },
+  "hero": { "tagline": "迪拜奢华护肤之家", "headline": "专为您的肌肤\n设计的\n奢华护肤", "subheadline": "专为迪拜气候打造的个性化护肤咨询和高端产品。", "cta_primary": "购买产品", "cta_secondary": "获取个性化护肤方案", "scroll": "向下滚动探索" },
+  "brand_story": { "label": "我们的故事", "headline": "科学与奢华的交汇", "body": "By Hayat Skin诞生于迪拜，是一家致力于个性化美容艺术的奢华护肤之家。", "stat_1_value": "500+", "stat_1_label": "蜕变客户", "stat_2_value": "15+", "stat_2_label": "高端成分", "stat_3_value": "100%", "stat_3_label": "个性化方案" },
+  "skin_diagnosis": { "label": "肌肤分析", "headline": "发现您的肤质", "subheadline": "选择您的肤质，获取个性化护肤建议。", "types": { "dry": { "name": "干性肌肤", "description": "缺乏水分，感觉紧绷干燥" }, "oily": { "name": "油性肌肤", "description": "皮脂分泌过多，容易出油" }, "combination": { "name": "混合性肌肤", "description": "T区油腻，两颊干燥" }, "sensitive": { "name": "敏感性肌肤", "description": "容易受刺激或泛红" }, "acne": { "name": "痘痘肌", "description": "频繁出现痘痘和瑕疵" } }, "routine_label": "您的推荐护肤程序", "cta": "获取完整咨询" },
+  "categories": { "label": "我们的系列", "headline": "满足每种肌肤需求", "items": { "serums": "精华液", "moisturizers": "保湿霜", "cleansers": "洁面产品", "masks": "面膜", "spf": "防晒产品", "eye_care": "眼部护理", "anti_aging": "抗衰老", "acne": "祛痘护理", "pigmentation": "淡斑护理", "barrier": "屏障修复", "kits": "奢华护肤套装" }, "cta": "查看全部" },
+  "consultation": { "label": "个性化护理", "headline": "您的肌肤，您的仪式", "subheadline": "我们的专家系统分析您独特的肌肤状况，创建专属护肤程序。", "steps": { "skin_type": "肤质类型", "concerns": "肌肤问题", "lifestyle": "生活方式", "climate": "气候因素", "goals": "您的目标" }, "cta": "开始咨询", "features": { "am": "早间护肤", "pm": "晚间护肤", "products": "产品清单", "plan": "护理方案" } },
+  "why_us": { "label": "为什么选择By Hayat Skin", "headline": "差异在于细节", "features": { "expert": { "title": "专家精选", "desc": "每款产品均由护肤专家精心挑选。" }, "climate": { "title": "迪拜气候优化", "desc": "专为阿联酋的炎热、湿度和紫外线强度设计的配方。" }, "luxury": { "title": "奢华精选", "desc": "只有最优质的成分才能进入我们的系列。" }, "personal": { "title": "个性化系统", "desc": "您的护肤程序专为您量身定制。" }, "longterm": { "title": "长期策略", "desc": "我们专注于持久的肌肤健康，而非快速解决方案。" } } },
+  "testimonials": { "label": "客户故事", "headline": "见证蜕变" },
+  "blog": { "label": "知识中心", "headline": "护肤杂志", "subheadline": "专家见解、成分科学和个性化护肤程序。", "read_more": "阅读文章", "view_all": "查看所有文章" },
+  "instagram": { "label": "关注我们的旅程", "headline": "@byhayatskin", "cta": "在Instagram上关注" },
+  "final_cta": { "headline": "开始您的个性化\n护肤之旅", "subheadline": "加入数百位通过By Hayat Skin改变肌肤的客户。", "cta_primary": "立即购买", "cta_secondary": "预约咨询", "whatsapp": "WhatsApp联系" },
+  "footer": { "tagline": "奢华护肤。专为您个性化定制。", "links": { "products": "产品", "consultation": "咨询", "blog": "杂志", "about": "关于我们", "contact": "联系我们", "privacy": "隐私政策", "terms": "服务条款" }, "contact": { "phone": "+971 52 450 2886", "location": "阿联酋迪拜", "email": "hello@byhayatskin.com" }, "copyright": "© 2025 By Hayat Skin. 版权所有。" },
+  "products": { "headline": "我们的产品", "filter_skin_type": "肤质类型", "filter_concern": "肌肤问题", "filter_price": "价格", "add_to_cart": "加入购物车", "add_to_wishlist": "心愿单", "view_details": "查看详情", "out_of_stock": "缺货", "new": "新品", "bestseller": "畅销品" },
+  "common": { "loading": "加载中...", "error": "出现错误", "back": "返回", "close": "关闭", "learn_more": "了解更多", "aed": "迪拉姆" }
+}

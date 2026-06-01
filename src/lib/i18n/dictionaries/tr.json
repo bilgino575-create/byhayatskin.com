@@ -1,0 +1,153 @@
+{
+  "nav": {
+    "home": "Ana Sayfa",
+    "products": "Ürünler",
+    "consultation": "Danışmanlık",
+    "blog": "Dergi",
+    "about": "Hakkımızda",
+    "contact": "İletişim",
+    "cta": "Cilt Planı Al"
+  },
+  "hero": {
+    "tagline": "Dubai'nin Lüks Cilt Bakım Evi",
+    "headline": "Cildiniz İçin\nTasarlanmış\nLüks Bakım",
+    "subheadline": "Dubai iklimine özel kişiselleştirilmiş cilt bakım danışmanlığı ve premium ürünler.",
+    "cta_primary": "Ürünleri Keşfet",
+    "cta_secondary": "Kişisel Cilt Planı Al",
+    "scroll": "Keşfetmek için kaydır"
+  },
+  "brand_story": {
+    "label": "Hikayemiz",
+    "headline": "Bilim Lüksle Buluştuğunda",
+    "body": "Dubai'de doğan By Hayat Skin, kişiselleştirilmiş güzellik sanatına adanmış lüks bir cilt bakım evidir. Dermatoloji ilhamlı formülasyonları lüks bir markanın ihtişamıyla birleştiriyoruz.",
+    "stat_1_value": "500+",
+    "stat_1_label": "Dönüşen Müşteri",
+    "stat_2_value": "15+",
+    "stat_2_label": "Premium İçerik",
+    "stat_3_value": "%100",
+    "stat_3_label": "Kişisel Plan"
+  },
+  "skin_diagnosis": {
+    "label": "Cilt Analizi",
+    "headline": "Cilt Tipinizi Keşfedin",
+    "subheadline": "Kişiselleştirilmiş rutin ve ürün önerileri için cilt tipinizi seçin.",
+    "types": {
+      "dry": { "name": "Kuru Cilt", "description": "Nem eksikliği, gergin ve pullu hisseder" },
+      "oily": { "name": "Yağlı Cilt", "description": "Aşırı sebum, parlaklık ve sivilceye eğilimli" },
+      "combination": { "name": "Karma Cilt", "description": "T bölgesi yağlı, yanaklar kuru" },
+      "sensitive": { "name": "Hassas Cilt", "description": "Reaktif, kolayca tahriş olan veya kızaran" },
+      "acne": { "name": "Sivilceye Eğilimli", "description": "Sık sivilce ve leke oluşumu" }
+    },
+    "routine_label": "Önerilen Rutininiz",
+    "cta": "Tam Danışmanlık Al"
+  },
+  "categories": {
+    "label": "Koleksiyonlarımız",
+    "headline": "Her Cilt İhtiyacı İçin Seçilmiş",
+    "items": {
+      "serums": "Serumlar",
+      "moisturizers": "Nemlendirici",
+      "cleansers": "Temizleyici",
+      "masks": "Maskeler",
+      "spf": "Güneş Koruma",
+      "eye_care": "Göz Bakımı",
+      "anti_aging": "Anti-Aging",
+      "acne": "Akne Tedavisi",
+      "pigmentation": "Pigmentasyon Bakımı",
+      "barrier": "Bariyer Onarımı",
+      "kits": "Lüks Ritual Kitleri"
+    },
+    "cta": "Tümünü Gör"
+  },
+  "consultation": {
+    "label": "Kişisel Bakım",
+    "headline": "Cildiniz, Ritüeliniz",
+    "subheadline": "Uzman danışmanlık sistemimiz benzersiz cilt profilinizi analiz ederek özel bir rutin oluşturur.",
+    "steps": {
+      "skin_type": "Cilt Tipi",
+      "concerns": "Cilt Sorunları",
+      "lifestyle": "Yaşam Tarzı",
+      "climate": "İklim Faktörü",
+      "goals": "Hedefleriniz"
+    },
+    "cta": "Danışmanlığa Başla",
+    "features": {
+      "am": "Sabah Rutini",
+      "pm": "Gece Rutini",
+      "products": "Ürün Listesi",
+      "plan": "Tedavi Planı"
+    }
+  },
+  "why_us": {
+    "label": "Neden By Hayat Skin",
+    "headline": "Fark Detaylarda Gizli",
+    "features": {
+      "expert": { "title": "Uzman Seçimi", "desc": "Her ürün, klinik uzmanlığa sahip cilt bakım uzmanları tarafından seçilir." },
+      "climate": { "title": "Dubai İklimine Özel", "desc": "BAE'nin sıcağı, nemi ve UV yoğunluğu için tasarlanmış formülasyonlar." },
+      "luxury": { "title": "Lüks Seçim", "desc": "Yalnızca en iyi içerikler ve en etkili formülasyonlar koleksiyonumuza girer." },
+      "personal": { "title": "Kişisel Sistem", "desc": "İki cilt birbirinin aynısı değildir. Rutininiz yalnızca sizin için oluşturulur." },
+      "longterm": { "title": "Uzun Vadeli Strateji", "desc": "Hızlı çözümler değil, kalıcı cilt sağlığına odaklanıyoruz." }
+    }
+  },
+  "testimonials": {
+    "label": "Müşteri Hikayeleri",
+    "headline": "Kendini Anlatan Dönüşümler"
+  },
+  "blog": {
+    "label": "Bilgi Merkezi",
+    "headline": "Cilt Bakım Dergisi",
+    "subheadline": "Her cilt tipi için uzman görüşleri, içerik bilimi ve kişisel rutinler.",
+    "read_more": "Makaleyi Oku",
+    "view_all": "Tüm Makaleleri Gör"
+  },
+  "instagram": {
+    "label": "Yolculuğumuzu Takip Edin",
+    "headline": "@byhayatskin",
+    "cta": "Instagram'da Takip Et"
+  },
+  "final_cta": {
+    "headline": "Kişisel Cilt Bakım\nYolculuğunuza Başlayın",
+    "subheadline": "By Hayat Skin ile ciltlerini dönüştüren yüzlerce müşteriye katılın.",
+    "cta_primary": "Şimdi Alışveriş Yap",
+    "cta_secondary": "Danışmanlık Rezervasyonu",
+    "whatsapp": "WhatsApp'tan Yaz"
+  },
+  "footer": {
+    "tagline": "Lüks Cilt Bakımı. Sizin İçin Kişiselleştirilmiş.",
+    "links": {
+      "products": "Ürünler",
+      "consultation": "Danışmanlık",
+      "blog": "Dergi",
+      "about": "Hakkımızda",
+      "contact": "İletişim",
+      "privacy": "Gizlilik Politikası",
+      "terms": "Kullanım Şartları"
+    },
+    "contact": {
+      "phone": "+971 52 450 2886",
+      "location": "Dubai, Birleşik Arap Emirlikleri",
+      "email": "hello@byhayatskin.com"
+    },
+    "copyright": "© 2025 By Hayat Skin. Tüm hakları saklıdır."
+  },
+  "products": {
+    "headline": "Ürünlerimiz",
+    "filter_skin_type": "Cilt Tipi",
+    "filter_concern": "Sorun",
+    "filter_price": "Fiyat",
+    "add_to_cart": "Sepete Ekle",
+    "add_to_wishlist": "İstek Listesi",
+    "view_details": "Detayları Gör",
+    "out_of_stock": "Stokta Yok",
+    "new": "Yeni",
+    "bestseller": "Çok Satan"
+  },
+  "common": {
+    "loading": "Yükleniyor...",
+    "error": "Bir şeyler yanlış gitti",
+    "back": "Geri",
+    "close": "Kapat",
+    "learn_more": "Daha Fazla",
+    "aed": "AED"
+  }
+}
