@@ -248,3 +248,79 @@ body {
   pointer-events: none;
   z-index: 1;
 }
+
+/* ── Dark Section ── */
+.section-dark {
+  background: #0F0E0C;
+  color: #F5EFE6;
+}
+
+.section-dark-2 {
+  background: #141210;
+  color: #F5EFE6;
+}
+
+.section-dark-3 {
+  background: #1A1714;
+  color: #F5EFE6;
+}
+
+/* ── Dark Card ── */
+.card-dark {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(201, 169, 110, 0.15);
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s var(--ease-luxury);
+}
+
+.card-dark:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(201, 169, 110, 0.4);
+  box-shadow: 0 8px 48px rgba(201, 169, 110, 0.15);
+  transform: translateY(-4px);
+}
+
+/* ── Gold Glow ── */
+.glow-gold {
+  box-shadow: 0 0 30px rgba(201, 169, 110, 0.25), 0 0 60px rgba(201, 169, 110, 0.1);
+}
+
+.glow-gold-sm {
+  box-shadow: 0 0 15px rgba(201, 169, 110, 0.2);
+}
+
+/* ── 3D Icon Container ── */
+.icon-3d {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(201,169,110,0.15) 0%, rgba(160,120,64,0.08) 100%);
+  border: 1px solid rgba(201,169,110,0.2);
+  transition: all 0.5s var(--ease-luxury);
+}
+
+.icon-3d::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(201,169,110,0.3), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.icon-3d:hover::before {
+  opacity: 1;
+}
+
+.icon-3d:hover {
+  transform: scale(1.08) rotateY(8deg);
+  box-shadow: 0 12px 40px rgba(201,169,110,0.25), 0 0 0 1px rgba(201,169,110,0.3);
+}
+
+/* ── Section Transition (dark → dark smooth) ── */
+.section-transition-dark {
+  background: linear-gradient(to bottom, #0F0E0C 0%, #141210 100%);
+}

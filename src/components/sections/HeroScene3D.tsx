@@ -1,19 +1,29 @@
 'use client'
 
-import { useRef, Suspense, useMemo } from 'react'
+import { useRef, Suspense, useMemo, useEffect, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Float, Environment, useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 
+// ── Responsive hook — runs only client-side ──
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState<boolean | null>(null)
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+  return isMobile
+}
+
 // ── Real Mascara GLB Model ──
-function MascaraModel() {
+function MascaraModel({ isMobile }: { isMobile: boolean }) {
   const groupRef = useRef<THREE.Group>(null)
   const { scene } = useGLTF('/models/mascara.glb')
 
-  // Clone scene to avoid mutation
   const cloned = useMemo(() => scene.clone(), [scene])
 
-  // Apply luxury dark materials to all meshes
   useMemo(() => {
     cloned.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
@@ -34,9 +44,12 @@ function MascaraModel() {
     groupRef.current.rotation.z = Math.sin(t * 0.25) * 0.06
   })
 
+  const scale: [number, number, number] = isMobile ? [7, 7, 7] : [14, 14, 14]
+  const position: [number, number, number] = isMobile ? [0, 0, 0] : [3.2, -1.8, 0]
+
   return (
-    <Float speed={1.2} rotationIntensity={0.06} floatIntensity={0.3}>
-      <group ref={groupRef} scale={[14, 14, 14]} position={[3.2, -1.8, 0]}>
+    <Float speed={1.2} rotationIntensity={0.06} floatIntensity={isMobile ? 0.15 : 0.3}>
+      <group ref={groupRef} scale={scale} position={position}>
         <primitive object={cloned} />
       </group>
     </Float>
@@ -44,19 +57,20 @@ function MascaraModel() {
 }
 
 // ── Ambient Gold Particles ──
-function GoldParticles() {
+function GoldParticles({ isMobile }: { isMobile: boolean }) {
   const pointsRef = useRef<THREE.Points>(null)
-  const count = 80
+  const count = isMobile ? 40 : 80
 
   const positions = useMemo(() => {
     const arr = new Float32Array(count * 3)
+    const spread = isMobile ? 6 : 9
     for (let i = 0; i < count; i++) {
-      arr[i * 3] = (Math.random() - 0.5) * 9
-      arr[i * 3 + 1] = (Math.random() - 0.5) * 9
+      arr[i * 3] = (Math.random() - 0.5) * spread
+      arr[i * 3 + 1] = (Math.random() - 0.5) * spread
       arr[i * 3 + 2] = (Math.random() - 0.5) * 4
     }
     return arr
-  }, [])
+  }, [count, isMobile])
 
   useFrame((state) => {
     if (!pointsRef.current) return
@@ -70,7 +84,7 @@ function GoldParticles() {
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
       <pointsMaterial
-        size={0.022}
+        size={isMobile ? 0.03 : 0.022}
         color="#C9A96E"
         transparent
         opacity={0.35}
@@ -82,7 +96,7 @@ function GoldParticles() {
 }
 
 // ── Soft Glow Ring behind model ──
-function GlowRing() {
+function GlowRing({ isMobile }: { isMobile: boolean }) {
   const meshRef = useRef<THREE.Mesh>(null)
 
   useFrame((state) => {
@@ -91,9 +105,11 @@ function GlowRing() {
     mat.opacity = 0.05 + Math.sin(state.clock.elapsedTime * 0.6) * 0.02
   })
 
+  const pos: [number, number, number] = isMobile ? [0, 0, -3] : [1.2, 0, -3]
+
   return (
-    <mesh ref={meshRef} position={[1.2, 0, -3]} rotation={[0, 0, 0]}>
-      <circleGeometry args={[4, 64]} />
+    <mesh ref={meshRef} position={pos}>
+      <circleGeometry args={[isMobile ? 3 : 4, 64]} />
       <meshBasicMaterial
         color="#C9A96E"
         transparent
@@ -130,15 +146,10 @@ function LoadingFallback() {
   )
 }
 
-export default function HeroScene3D() {
+// ── Scene content — receives isMobile as prop ──
+function SceneContent({ isMobile }: { isMobile: boolean }) {
   return (
-    <Canvas
-      camera={{ position: [-2.0, 0.3, 5.5], fov: 38 }}
-      gl={{ antialias: true, alpha: true }}
-      dpr={[1, 1.5]}
-      style={{ width: '100%', height: '100%' }}
-    >
-      {/* Lighting — bright luxury studio for light theme */}
+    <>
       <ambientLight intensity={1.2} color="#FFF8F0" />
       <directionalLight position={[4, 8, 5]} intensity={2.5} color="#FFFFFF" />
       <directionalLight position={[-5, 3, -2]} intensity={1.0} color="#F5EDD8" />
@@ -148,10 +159,47 @@ export default function HeroScene3D() {
 
       <Suspense fallback={<LoadingFallback />}>
         <Environment preset="studio" />
-        <GlowRing />
-        <MascaraModel />
-        <GoldParticles />
+        <GlowRing isMobile={isMobile} />
+        <MascaraModel isMobile={isMobile} />
+        <GoldParticles isMobile={isMobile} />
       </Suspense>
+    </>
+  )
+}
+
+export default function HeroScene3D() {
+  const isMobileRaw = useIsMobile()
+
+  // Wait for client-side detection before rendering Canvas
+  // This prevents hydration mismatch and wrong camera on mobile
+  if (isMobileRaw === null) {
+    return (
+      <div
+        className="w-full h-full"
+        style={{
+          background: 'radial-gradient(ellipse at 60% 50%, rgba(201,169,110,0.08) 0%, transparent 65%)',
+        }}
+      />
+    )
+  }
+
+  const isMobile = isMobileRaw
+
+  const cameraPosition: [number, number, number] = isMobile
+    ? [0, 0.5, 8]
+    : [-2.0, 0.3, 5.5]
+  const cameraFov = isMobile ? 52 : 38
+
+  return (
+    // key forces Canvas remount when mobile/desktop switches
+    <Canvas
+      key={isMobile ? 'mobile' : 'desktop'}
+      camera={{ position: cameraPosition, fov: cameraFov }}
+      gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+      dpr={[1, isMobile ? 1.5 : 2]}
+      style={{ width: '100%', height: '100%' }}
+    >
+      <SceneContent isMobile={isMobile} />
     </Canvas>
   )
 }

@@ -132,7 +132,7 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
       <section
         ref={sectionRef}
         className="relative w-full overflow-hidden"
-        style={{ height: '100svh', minHeight: '700px', background: '#FDFAF5' }}
+        style={{ height: '100svh', minHeight: '600px', background: '#FDFAF5' }}
       >
         {/* ── Background: warm ivory gradient ── */}
         <div
@@ -158,25 +158,38 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
           }}
         />
 
-        {/* ── 3D Scene — full screen ── */}
+        {/* ── 3D Scene ──
+            Masaüstü: full screen arkada
+            Mobil: üst yarıda, içerik altta
+        ── */}
         <motion.div
-          className="absolute inset-0"
+          className="absolute inset-0 md:inset-0"
           style={{ scale: sceneScale }}
         >
-          <HeroScene3D />
+          {/* Mobilde 3D sahneyi üst %55'e sınırla */}
+          <div className="w-full h-full md:h-full" style={{ height: '100%' }}>
+            <HeroScene3D />
+          </div>
         </motion.div>
 
-        {/* ── Left content vignette ── */}
+        {/* ── Vignette: masaüstünde soldan, mobilde alttan ── */}
         <div
-          className="absolute inset-0 pointer-events-none"
+          className="absolute inset-0 pointer-events-none hidden md:block"
           style={{
             background: 'linear-gradient(to right, rgba(253,250,245,0.96) 0%, rgba(253,250,245,0.85) 35%, rgba(253,250,245,0.3) 60%, transparent 80%)',
           }}
         />
-
-        {/* ── Ambient light streaks ── */}
+        {/* Mobil vignette: alttan yukarı doğru içeriği arka plandan ayırır */}
         <div
-          className="absolute pointer-events-none"
+          className="absolute inset-0 pointer-events-none md:hidden"
+          style={{
+            background: 'linear-gradient(to top, rgba(253,250,245,1) 0%, rgba(253,250,245,0.98) 40%, rgba(253,250,245,0.5) 65%, transparent 100%)',
+          }}
+        />
+
+        {/* ── Ambient light streaks — sadece masaüstü ── */}
+        <div
+          className="absolute pointer-events-none hidden md:block"
           style={{
             top: '20%',
             right: '25%',
@@ -194,12 +207,12 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
           style={{ y: textY }}
         >
           {/* Marquee strip */}
-          <div className="pointer-events-auto mb-10 lg:mb-14">
+          <div className="pointer-events-auto mb-6 md:mb-10 lg:mb-14">
             <MarqueeStrip />
           </div>
 
           {/* Main content block */}
-          <div className="container-luxury pb-16 lg:pb-20 pointer-events-auto">
+          <div className="container-luxury pb-8 md:pb-16 lg:pb-20 pointer-events-auto">
             <div className="max-w-2xl">
 
               {/* Eyebrow */}
@@ -207,7 +220,7 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.4, delay: 0 }}
-                className="flex items-center gap-4 mb-6"
+                className="flex items-center gap-4 mb-4 md:mb-6"
               >
                 <div style={{ width: '32px', height: '1px', background: 'rgba(160,120,64,0.6)' }} />
                 <span
@@ -219,11 +232,11 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
               </motion.div>
 
               {/* Headline — split text */}
-              <h1 className="mb-8 overflow-hidden">
+              <h1 className="mb-5 md:mb-8 overflow-hidden">
                 {lines.map((line, i) => (
                   <div key={i} className="overflow-hidden leading-[1.05]">
                     <div
-                      className="text-[clamp(2.8rem,6.5vw,6rem)] font-light tracking-[-0.02em]"
+                      className="text-[clamp(2.2rem,7vw,6rem)] font-light tracking-[-0.02em]"
                       style={{
                         fontFamily: 'var(--font-cormorant), Georgia, serif',
                         color: i === 1 ? 'transparent' : '#1A1A1A',
@@ -242,14 +255,14 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
               </h1>
 
               {/* Subheadline + CTAs row */}
-              <div className="flex flex-col lg:flex-row lg:items-end gap-8 lg:gap-16">
+              <div className="flex flex-col lg:flex-row lg:items-end gap-4 md:gap-8 lg:gap-16">
 
-                {/* Subheadline */}
+                {/* Subheadline — mobilde kısa tut */}
                 <motion.p
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.3 }}
-                  className="text-sm leading-relaxed max-w-sm"
+                  className="text-sm leading-relaxed max-w-sm hidden sm:block"
                   style={{ color: 'rgba(100,85,70,0.7)' }}
                 >
                   {dict.hero.subheadline}
@@ -260,11 +273,11 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.4 }}
-                  className="flex flex-col sm:flex-row gap-3 lg:ml-auto"
+                  className="flex flex-row gap-2 md:gap-3 lg:ml-auto w-full sm:w-auto"
                 >
                   <Link
                     href={`/${lang}/products`}
-                    className="group relative overflow-hidden px-8 py-3.5 text-[0.7rem] tracking-[0.2em] uppercase font-medium transition-all duration-500"
+                    className="group relative overflow-hidden flex-1 sm:flex-none text-center px-5 md:px-8 py-3 md:py-3.5 text-[0.65rem] md:text-[0.7rem] tracking-[0.15em] md:tracking-[0.2em] uppercase font-medium transition-all duration-500"
                     style={{
                       background: 'linear-gradient(135deg, #A07840 0%, #C9A96E 100%)',
                       color: '#FDFAF5',
@@ -279,7 +292,7 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
 
                   <Link
                     href={`/${lang}/consultation`}
-                    className="group px-8 py-3.5 text-[0.7rem] tracking-[0.2em] uppercase font-medium transition-all duration-500"
+                    className="group flex-1 sm:flex-none text-center px-5 md:px-8 py-3 md:py-3.5 text-[0.65rem] md:text-[0.7rem] tracking-[0.15em] md:tracking-[0.2em] uppercase font-medium transition-all duration-500"
                     style={{
                       border: '1px solid rgba(160,120,64,0.4)',
                       color: 'rgba(160,120,64,0.9)',
@@ -299,12 +312,12 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
                 </motion.div>
               </div>
 
-              {/* Stats row */}
+              {/* Stats row — mobilde sadece 2 stat göster, scroll hint gizle */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
-                className="flex items-center gap-10 mt-12 pt-8"
+                className="flex items-center gap-6 md:gap-10 mt-6 md:mt-12 pt-5 md:pt-8"
                 style={{ borderTop: '1px solid rgba(160,120,64,0.15)' }}
               >
                 {[
@@ -312,9 +325,9 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
                   { value: dict.brand_story.stat_2_value, label: dict.brand_story.stat_2_label },
                   { value: dict.brand_story.stat_3_value, label: dict.brand_story.stat_3_label },
                 ].map((stat, i) => (
-                  <div key={i}>
+                  <div key={i} className={i === 2 ? 'hidden sm:block' : ''}>
                     <div
-                      className="text-2xl lg:text-3xl font-light mb-0.5"
+                      className="text-xl md:text-2xl lg:text-3xl font-light mb-0.5"
                       style={{
                         fontFamily: 'var(--font-cormorant), Georgia, serif',
                         background: 'linear-gradient(90deg, #A07840, #C9A96E)',
@@ -326,7 +339,7 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
                       {stat.value}
                     </div>
                     <div
-                      className="text-[0.58rem] tracking-[0.18em] uppercase"
+                      className="text-[0.55rem] md:text-[0.58rem] tracking-[0.15em] md:tracking-[0.18em] uppercase"
                       style={{ color: 'rgba(100,85,70,0.5)' }}
                     >
                       {stat.label}
@@ -334,8 +347,8 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
                   </div>
                 ))}
 
-                {/* Scroll hint */}
-                <div className="ml-auto flex flex-col items-center gap-2" style={{ color: 'rgba(160,120,64,0.5)' }}>
+                {/* Scroll hint — sadece masaüstü */}
+                <div className="ml-auto hidden md:flex flex-col items-center gap-2" style={{ color: 'rgba(160,120,64,0.5)' }}>
                   <span className="text-[0.55rem] tracking-[0.25em] uppercase">{dict.hero.scroll}</span>
                   <motion.div
                     animate={{ y: [0, 7, 0] }}
@@ -350,12 +363,12 @@ export function HeroSection({ dict, lang }: HeroSectionProps) {
           </div>
         </motion.div>
 
-        {/* ── Top-right corner detail ── */}
+        {/* ── Top-right corner detail — sadece masaüstü ── */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5, delay: 0.8 }}
-          className="absolute top-24 right-8 lg:right-16 flex flex-col items-end gap-1 pointer-events-none"
+          className="absolute top-24 right-8 lg:right-16 hidden md:flex flex-col items-end gap-1 pointer-events-none"
         >
           <span
             className="text-[0.55rem] tracking-[0.3em] uppercase"
