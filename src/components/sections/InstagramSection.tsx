@@ -8,14 +8,13 @@ interface InstagramSectionProps {
   dict: DictionaryType
 }
 
-// Placeholder Instagram grid items with luxury aesthetic
-const instagramPosts = [
-  { id: 1, gradient: 'from-[#C9A96E]/30 to-[#E8D5B0]/20', symbol: '✦', aspect: 'square' },
-  { id: 2, gradient: 'from-[#B76E79]/20 to-[#E8B4B8]/10', symbol: '◈', aspect: 'square' },
-  { id: 3, gradient: 'from-[#7BA7BC]/20 to-[#B8D4E0]/10', symbol: '◎', aspect: 'square' },
-  { id: 4, gradient: 'from-[#A8C5A0]/20 to-[#C8E0C0]/10', symbol: '◇', aspect: 'square' },
-  { id: 5, gradient: 'from-[#9B8EA8]/20 to-[#C4B8D0]/10', symbol: '✧', aspect: 'square' },
-  { id: 6, gradient: 'from-[#C9A96E]/20 to-[#F0E0C0]/10', symbol: '◆', aspect: 'square' },
+const posts = [
+  { glyph: '✦' },
+  { glyph: '◈' },
+  { glyph: '◎' },
+  { glyph: '◇' },
+  { glyph: '✧' },
+  { glyph: '◆' },
 ]
 
 export function InstagramSection({ dict }: InstagramSectionProps) {
@@ -23,66 +22,88 @@ export function InstagramSection({ dict }: InstagramSectionProps) {
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section ref={ref} className="section-padding bg-[var(--color-beige)] relative overflow-hidden">
+    <section
+      ref={ref}
+      className="relative overflow-hidden"
+      style={{ background: '#0F0E0C', paddingTop: '6rem', paddingBottom: '6rem' }}
+    >
+      {/* Top border */}
+      <div
+        className="absolute top-0 left-0 right-0 h-px"
+        style={{ background: 'linear-gradient(to right, transparent, rgba(201,169,110,0.1), transparent)' }}
+      />
+
       <div className="container-luxury">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.7 }}
           className="text-center mb-10"
         >
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="h-px w-10 bg-[var(--color-champagne)]" />
-            <span className="text-[0.7rem] tracking-[0.25em] uppercase text-[var(--color-champagne-dark)] font-medium">
-              {dict.instagram.label}
+            <div style={{ width: '28px', height: '1px', background: 'rgba(201,169,110,0.4)' }} />
+            <span className="text-[0.6rem] tracking-[0.35em] uppercase" style={{ color: 'rgba(201,169,110,0.5)' }}>
+              Follow Our Journey
             </span>
-            <div className="h-px w-10 bg-[var(--color-champagne)]" />
+            <div style={{ width: '28px', height: '1px', background: 'rgba(201,169,110,0.4)' }} />
           </div>
           <a
             href="https://www.instagram.com/byhayatskin"
             target="_blank"
             rel="noopener noreferrer"
-            className="heading-luxury text-3xl md:text-4xl text-[var(--color-matte-black)] hover:text-[var(--color-champagne-dark)] transition-colors duration-300 inline-block"
+            className="transition-colors duration-300 inline-block"
+            style={{
+              fontFamily: 'var(--font-cormorant), Georgia, serif',
+              fontSize: 'clamp(1.8rem, 4vw, 3rem)',
+              fontWeight: 300,
+              color: 'rgba(245,239,230,0.6)',
+              letterSpacing: '0.02em',
+            }}
+            onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = '#C9A96E'}
+            onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'rgba(245,239,230,0.6)'}
           >
-            {dict.instagram.headline}
+            @byhayatskin
           </a>
         </motion.div>
 
-        {/* Instagram Grid */}
+        {/* Grid */}
         <div className="grid grid-cols-3 md:grid-cols-6 gap-2 md:gap-3 mb-8">
-          {instagramPosts.map((post, i) => (
+          {posts.map((post, i) => (
             <motion.a
-              key={post.id}
+              key={i}
               href="https://www.instagram.com/byhayatskin"
               target="_blank"
               rel="noopener noreferrer"
-              initial={{ opacity: 0, scale: 0.9 }}
+              className="group relative aspect-square rounded-sm overflow-hidden cursor-pointer"
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.5, delay: i * 0.07 }}
-              className="group relative aspect-square rounded-sm overflow-hidden cursor-pointer"
+              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(201,169,110,0.06)' }}
+              whileHover={{ scale: 1.02 }}
             >
-              <div className={`absolute inset-0 bg-gradient-to-br ${post.gradient}`} />
+              {/* Subtle gradient bg */}
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
+                style={{ background: 'rgba(201,169,110,0.06)' }}
+              />
+
+              {/* Glyph */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <span
-                  className="text-3xl opacity-20 group-hover:opacity-40 transition-opacity duration-300"
-                  style={{ color: 'var(--color-champagne-dark)' }}
+                  className="text-3xl opacity-10 group-hover:opacity-25 transition-opacity duration-300"
+                  style={{ color: '#C9A96E' }}
                 >
-                  {post.symbol}
+                  {post.glyph}
                 </span>
               </div>
-              {/* Hover overlay */}
-              <div className="absolute inset-0 bg-[var(--color-champagne)]/0 group-hover:bg-[var(--color-champagne)]/10 transition-all duration-300 flex items-center justify-center">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="1.5"
-                  className="w-6 h-6 opacity-0 group-hover:opacity-80 transition-opacity duration-300"
-                >
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                  <circle cx="12" cy="12" r="4"/>
-                  <circle cx="17.5" cy="6.5" r="0.5" fill="white" stroke="none"/>
+
+              {/* Instagram icon on hover */}
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <svg viewBox="0 0 24 24" fill="none" stroke="rgba(201,169,110,0.7)" strokeWidth="1.5" className="w-5 h-5">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle cx="17.5" cy="6.5" r="0.5" fill="rgba(201,169,110,0.7)" stroke="none" />
                 </svg>
               </div>
             </motion.a>
@@ -91,7 +112,7 @@ export function InstagramSection({ dict }: InstagramSectionProps) {
 
         {/* CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.5 }}
           className="text-center"
@@ -100,14 +121,29 @@ export function InstagramSection({ dict }: InstagramSectionProps) {
             href="https://www.instagram.com/byhayatskin"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-luxury btn-outline inline-flex items-center gap-2"
+            className="inline-flex items-center gap-2 px-8 py-3.5 text-[0.62rem] tracking-[0.18em] uppercase font-medium transition-all duration-400"
+            style={{
+              border: '1px solid rgba(201,169,110,0.2)',
+              color: 'rgba(201,169,110,0.7)',
+              background: 'transparent',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(201,169,110,0.5)'
+              ;(e.currentTarget as HTMLElement).style.color = '#C9A96E'
+              ;(e.currentTarget as HTMLElement).style.background = 'rgba(201,169,110,0.05)'
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(201,169,110,0.2)'
+              ;(e.currentTarget as HTMLElement).style.color = 'rgba(201,169,110,0.7)'
+              ;(e.currentTarget as HTMLElement).style.background = 'transparent'
+            }}
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-              <circle cx="12" cy="12" r="4"/>
-              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
             </svg>
-            {dict.instagram.cta}
+            Follow on Instagram
           </a>
         </motion.div>
       </div>
