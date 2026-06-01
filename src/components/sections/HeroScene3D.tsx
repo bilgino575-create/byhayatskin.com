@@ -36,7 +36,7 @@ function MascaraModel() {
 
   return (
     <Float speed={1.2} rotationIntensity={0.06} floatIntensity={0.5}>
-      <group ref={groupRef} scale={[22, 22, 22]} position={[0.4, -0.3, 0]}>
+      <group ref={groupRef} scale={[22, 22, 22]} position={[1.2, -0.2, 0]}>
         <primitive object={cloned} />
       </group>
     </Float>
@@ -92,12 +92,12 @@ function GlowRing() {
   })
 
   return (
-    <mesh ref={meshRef} position={[0.4, 0, -2.5]} rotation={[0, 0, 0]}>
-      <circleGeometry args={[3.5, 64]} />
+    <mesh ref={meshRef} position={[1.2, 0, -3]} rotation={[0, 0, 0]}>
+      <circleGeometry args={[4, 64]} />
       <meshBasicMaterial
         color="#C9A96E"
         transparent
-        opacity={0.04}
+        opacity={0.025}
         side={THREE.DoubleSide}
         depthWrite={false}
       />
@@ -133,7 +133,7 @@ function LoadingFallback() {
 export default function HeroScene3D() {
   return (
     <Canvas
-      camera={{ position: [0, 0.5, 5], fov: 40 }}
+      camera={{ position: [-1.2, 0.5, 5], fov: 40 }}
       gl={{ antialias: true, alpha: true }}
       dpr={[1, 1.5]}
       style={{ width: '100%', height: '100%' }}
